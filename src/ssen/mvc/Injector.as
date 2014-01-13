@@ -2,10 +2,10 @@ package ssen.mvc {
 import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
 
-use namespace dependent;
+use namespace mvc_internal;
 
 public class Injector implements IInjector {
-	dependent static var dependents:Object={};
+	mvc_internal static var dependents:Object={};
 
 	private var factories:Object;
 	private var parent:Injector;

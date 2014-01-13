@@ -125,7 +125,7 @@ import flash.utils.Dictionary;
 import ssen.datakit.ds.MultipleKeyDataCollection;
 import ssen.mvc.DispatchTo;
 import ssen.mvc.Evt;
-import ssen.mvc.EvtGatherer;
+import ssen.mvc.helpers.EvtGatherer;
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 import ssen.mvc.ICommandMap;
@@ -136,9 +136,9 @@ import ssen.mvc.IEventBus;
 import ssen.mvc.IEvtDispatcher;
 import ssen.mvc.IEvtUnit;
 import ssen.mvc.IInjector;
-import ssen.mvc.dependent;
+import ssen.mvc.mvc_internal;
 
-use namespace dependent;
+use namespace mvc_internal;
 
 class ImplCommandMap implements ICommandMap {
 	private var dic:Dictionary;

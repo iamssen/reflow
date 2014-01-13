@@ -1,8 +1,9 @@
-package ssen.mvc {
+package ssen.mvc.helpers {
 import de.polygonal.ds.HashMap;
 import de.polygonal.ds.Itr;
 
 import ssen.common.IDisposable;
+import ssen.mvc.IEvtUnit;
 
 public class EvtGatherer implements IDisposable {
 	private var map:HashMap;
