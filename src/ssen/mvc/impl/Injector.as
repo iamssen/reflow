@@ -1,6 +1,9 @@
-package ssen.mvc {
+package ssen.mvc.impl {
 import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
+import ssen.mvc.IDependent;
+import ssen.mvc.IInjector;
+import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;
 
@@ -88,7 +91,7 @@ public class Injector implements IInjector {
 				throw new Error("type is property or method");
 			}
 		}
-		
+
 		if (obj is IDependent) {
 			IDependent(obj).onDependent();
 		}
@@ -152,7 +155,7 @@ public class Injector implements IInjector {
 		if (dependents[id]) {
 			return null;
 		}
-		
+
 		var spec:XML=describeType(target);
 
 		var injectList:XMLList=spec..metadata.(@name == "Inject");
@@ -197,7 +200,7 @@ public class Injector implements IInjector {
 		}
 
 		dependents[id]=list;
-		
+
 		return spec;
 	}
 
@@ -230,7 +233,7 @@ public class Injector implements IInjector {
 }
 }
 import ssen.common.IDisposable;
-import ssen.mvc.Injector;
+import ssen.mvc.impl.Injector;
 
 class InstanceFactory implements IDisposable {
 	private var injector:Injector;

@@ -9,7 +9,7 @@ public interface IViewInjector extends IDisposable {
 	function hasMapping(view:*):Boolean;
 
 	function injectInto(view:Object):void;
-	
+
 	function isGlobal(view:*):Boolean;
 }
 }
