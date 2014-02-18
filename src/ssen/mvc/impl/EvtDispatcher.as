@@ -1,7 +1,8 @@
 package ssen.mvc.impl {
-import ssen.mvc.Evt;
-import ssen.mvc.IEvtDispatcher;
+import flash.events.Event;
+
 import ssen.mvc.IEventUnit;
+import ssen.mvc.IEvtDispatcher;
 
 internal class EvtDispatcher implements IEvtDispatcher {
 	private var collection:Collection;
@@ -14,7 +15,7 @@ internal class EvtDispatcher implements IEvtDispatcher {
 		return collection.add(type, listener);
 	}
 
-	public function dispatchEvt(evt:Evt):void {
+	public function dispatchEvt(evt:Event):void {
 		var units:Vector.<IEventUnit>=collection.get(evt.type);
 		var f:int=units.length;
 

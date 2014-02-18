@@ -1,18 +1,18 @@
 package ssen.mvc.impl {
+import flash.events.Event;
 import flash.utils.Dictionary;
 
-import ssen.mvc.Evt;
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 
-internal class ImplEventChain implements ICommandChain {
+internal class EventChain implements ICommandChain {
 
 	private var _commands:Vector.<ICommand>;
 	private var dic:Dictionary;
 	private var c:int=-1;
-	private var _trigger:Evt;
+	private var _trigger:Event;
 
-	public function ImplEventChain(trigger:Evt, commands:Vector.<ICommand>) {
+	public function EventChain(trigger:Event, commands:Vector.<ICommand>) {
 		_trigger=trigger;
 		_commands=commands;
 	}
@@ -46,7 +46,7 @@ internal class ImplEventChain implements ICommandChain {
 		return _commands.length;
 	}
 
-	public function get trigger():Evt {
+	public function get trigger():Event {
 		return _trigger;
 	}
 }

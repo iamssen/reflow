@@ -6,11 +6,11 @@ import flash.utils.getQualifiedClassName;
 import ssen.mvc.IInjector;
 import ssen.mvc.IViewInjector;
 
-internal class ImplViewInjector implements IViewInjector {
+internal class ViewInjector implements IViewInjector {
 	private var map:Dictionary;
 	private var injector:IInjector;
 
-	public function ImplViewInjector(injector:IInjector) {
+	public function ViewInjector(injector:IInjector) {
 		this.injector=injector;
 		map=new Dictionary;
 	}

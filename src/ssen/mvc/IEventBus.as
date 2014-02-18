@@ -1,4 +1,6 @@
 package ssen.mvc {
+import flash.events.Event;
+
 import ssen.common.IDisposable;
 
 public interface IEventBus extends IDisposable {
@@ -12,7 +14,7 @@ public interface IEventBus extends IDisposable {
 	// ---------------------------------------
 	// dispatcher
 	// ---------------------------------------
-	function dispatchEvent(evt:Evt, to:String="self", penetrate:Boolean=false):void;
+	function dispatchEvent(evt:Event, to:String="self", penetrate:Boolean=false):void;
 
 	// ---------------------------------------
 	// chain

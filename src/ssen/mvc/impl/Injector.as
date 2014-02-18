@@ -71,11 +71,13 @@ public class Injector implements IInjector {
 			d=list[f];
 
 			if (d.type === "property") {
-				fac=factories[d.factory];
+				//	 fac=factories[d.factory];
+				fac=getValueFactoryByName(d.factory);
 				obj[d.name]=fac.getInstance();
 			} else if (d.type === "method") {
 				method=obj[d.name];
 
+				// TODO 에러 가능성 있음
 				facs=d.factories;
 				args=[];
 
@@ -207,6 +209,23 @@ public class Injector implements IInjector {
 	private function getValueFactory(type:Class, named:String):InstanceFactory {
 		var id:String=getNameByClass(type, named);
 
+		var factories:Object;
+		var factory:InstanceFactory;
+
+		var f:int=-1;
+		var fmax:int=factoriesset.length;
+
+		while (++f < fmax) {
+			factories=factoriesset[f];
+			if (factories[id]) {
+				return factories[id];
+			}
+		}
+
+		return undefined;
+	}
+
+	private function getValueFactoryByName(id:String):InstanceFactory {
 		var factories:Object;
 		var factory:InstanceFactory;
 

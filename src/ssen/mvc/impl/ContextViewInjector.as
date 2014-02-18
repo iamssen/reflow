@@ -3,10 +3,10 @@ import ssen.mvc.IContext;
 import ssen.mvc.IContextView;
 import ssen.mvc.IContextViewInjector;
 
-internal class ImplContextViewInjector implements IContextViewInjector {
+internal class ContextViewInjector implements IContextViewInjector {
 	private var context:IContext;
 
-	public function ImplContextViewInjector(context:IContext=null) {
+	public function ContextViewInjector(context:IContext=null) {
 		this.context=context;
 	}
 

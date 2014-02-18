@@ -72,12 +72,12 @@ public class Context extends ContextBase {
 	// =========================================================
 	/** @private */
 	final override protected function get viewCatcher():IViewCatcher {
-		return _viewCatcher||=new ImplViewCatcher(viewInjector, contextViewInjector, contextView);
+		return _viewCatcher||=new ViewCatcher(viewInjector, contextViewInjector, contextView);
 	}
 
 	/** @see ssen.mvc.core.IViewInjector */
 	final override protected function get viewInjector():IViewInjector {
-		return _viewInjector||=new ImplViewInjector(injector);
+		return _viewInjector||=new ViewInjector(injector);
 	}
 }
 }

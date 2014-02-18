@@ -15,8 +15,8 @@ public class ContextBase implements IContext {
 	private var _parentContext:IContext;
 	private var _eventBus:IEventBus;
 	private var _injector:IInjector;
-	private var _contextViewInjector:ImplContextViewInjector;
-	private var _commandMap:ImplCommandMap;
+	private var _contextViewInjector:ContextViewInjector;
+	private var _commandMap:CommandMap;
 
 	public function ContextBase(contextView:IContextView, parentContext:IContext=null) {
 		_parentContext=parentContext;
@@ -114,12 +114,12 @@ public class ContextBase implements IContext {
 	}
 
 	final protected function get contextViewInjector():IContextViewInjector {
-		return _contextViewInjector||=new ImplContextViewInjector(this);
+		return _contextViewInjector||=new ContextViewInjector(this);
 	}
 
 	/** @see ssen.mvc.core.ICommandMap */
 	public function get commandMap():ICommandMap {
-		return _commandMap||=new ImplCommandMap(eventBus.evtDispatcher, injector);
+		return _commandMap||=new CommandMap(eventBus.evtDispatcher, injector);
 	}
 }
 }

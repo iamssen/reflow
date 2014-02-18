@@ -9,7 +9,7 @@ import ssen.mvc.IContextViewInjector;
 import ssen.mvc.IViewCatcher;
 import ssen.mvc.IViewInjector;
 
-internal class ImplViewCatcher implements IViewCatcher {
+internal class ViewCatcher implements IViewCatcher {
 	private var _run:Boolean;
 	private var view:DisplayObjectContainer;
 	private var stage:Stage;
@@ -17,7 +17,7 @@ internal class ImplViewCatcher implements IViewCatcher {
 	private var contextViewInjector:IContextViewInjector;
 	private var contextView:IContextView;
 
-	public function ImplViewCatcher(viewInjector:IViewInjector, contextViewInjector:IContextViewInjector, contextView:IContextView) {
+	public function ViewCatcher(viewInjector:IViewInjector, contextViewInjector:IContextViewInjector, contextView:IContextView) {
 		this.viewInjector=viewInjector;
 		this.contextViewInjector=contextViewInjector;
 		this.contextView=contextView;

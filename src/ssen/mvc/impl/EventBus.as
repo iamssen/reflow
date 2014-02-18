@@ -1,16 +1,18 @@
 package ssen.mvc.impl {
+import flash.events.Event;
+
 import ssen.mvc.DispatchTo;
-import ssen.mvc.Evt;
 import ssen.mvc.IEventBus;
-import ssen.mvc.IEvtDispatcher;
 import ssen.mvc.IEventUnit;
+import ssen.mvc.IEvtDispatcher;
 
-internal class EventBus implements IEventBus {
-
+public class EventBus implements IEventBus {
 	private static var _globalDispatcher:IEvtDispatcher;
 	private var _parent:IEventBus;
 	private var _evtDispatcher:IEvtDispatcher;
-	private var _eventUnits:EvtGatherer;
+	private var fromParentContext:IEventUnit;
+	private var fromGlobalContext:IEventUnit;
+	private var fromChildrenContext:IEventUnit;
 
 	public function EventBus(parent:IEventBus=null) {
 		if (_globalDispatcher === null) {
@@ -19,13 +21,12 @@ internal class EventBus implements IEventBus {
 
 		_evtDispatcher=new EvtDispatcher;
 		_parent=parent;
-		_eventUnits=new EvtGatherer;
 
 		if (_parent) {
-			_eventUnits.add(_parent.evtDispatcher.addEvtListener(ContextEvent.FROM_PARENT_CONTEXT, catchOutsideEvent));
+			fromParentContext=_parent.evtDispatcher.addEvtListener(ContextEvent.FROM_PARENT_CONTEXT, catchOutsideEvent);
 		}
-		_eventUnits.add(_globalDispatcher.addEvtListener(ContextEvent.FROM_GLOBAL_CONTEXT, catchOutsideEvent));
-		_eventUnits.add(_evtDispatcher.addEvtListener(ContextEvent.FROM_CHILD_CONTEXT, catchOutsideEvent));
+		fromGlobalContext=_globalDispatcher.addEvtListener(ContextEvent.FROM_GLOBAL_CONTEXT, catchOutsideEvent);
+		fromChildrenContext=_evtDispatcher.addEvtListener(ContextEvent.FROM_CHILDREN_CONTEXT, catchOutsideEvent);
 	}
 
 	//----------------------------------------------------------------
@@ -39,7 +40,7 @@ internal class EventBus implements IEventBus {
 		_evtDispatcher.dispatchEvt(event.evt);
 
 		if (event.penetrate) {
-			if (event.type === ContextEvent.FROM_CHILD_CONTEXT) {
+			if (event.type === ContextEvent.FROM_CHILDREN_CONTEXT) {
 				dispatchEvent(event.evt, DispatchTo.PARENT, true);
 			} else if (event.type === ContextEvent.FROM_PARENT_CONTEXT) {
 				dispatchEvent(event.evt, DispatchTo.CHILDREN, true);
@@ -62,14 +63,14 @@ internal class EventBus implements IEventBus {
 		return new EventBus(this);
 	}
 
-	public function dispatchEvent(evt:Evt, to:String="self", penetrate:Boolean=false):void {
+	public function dispatchEvent(evt:Event, to:String="self", penetrate:Boolean=false):void {
 		if (to == DispatchTo.CHILDREN) {
 			_evtDispatcher.dispatchEvt(new ContextEvent(ContextEvent.FROM_PARENT_CONTEXT, evt, penetrate));
 		} else if (to == DispatchTo.GLOBAL) {
 			_globalDispatcher.dispatchEvt(new ContextEvent(ContextEvent.FROM_GLOBAL_CONTEXT, evt, penetrate));
 		} else if (to == DispatchTo.PARENT) {
 			if (_parent) {
-				_parent.evtDispatcher.dispatchEvt(new ContextEvent(ContextEvent.FROM_CHILD_CONTEXT, evt, penetrate));
+				_parent.evtDispatcher.dispatchEvt(new ContextEvent(ContextEvent.FROM_CHILDREN_CONTEXT, evt, penetrate));
 			}
 		} else if (to == DispatchTo.SELF) {
 			_evtDispatcher.dispatchEvt(evt);
@@ -79,10 +80,14 @@ internal class EventBus implements IEventBus {
 	}
 
 	public function dispose():void {
-		_eventUnits.dispose();
+		fromGlobalContext.dispose();
+		fromParentContext.dispose();
+		fromChildrenContext.dispose();
 		_evtDispatcher.dispose();
 
-		_eventUnits=null;
+		fromGlobalContext=null;
+		fromParentContext=null;
+		fromChildrenContext=null;
 		_evtDispatcher=null;
 		_parent=null;
 	}

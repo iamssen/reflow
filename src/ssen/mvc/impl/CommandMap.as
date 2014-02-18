@@ -1,20 +1,20 @@
 package ssen.mvc.impl {
+import flash.events.Event;
 import flash.utils.Dictionary;
 
-import ssen.mvc.Evt;
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 import ssen.mvc.ICommandMap;
 import ssen.mvc.IEvtDispatcher;
 import ssen.mvc.IInjector;
 
-internal class ImplCommandMap implements ICommandMap {
+internal class CommandMap implements ICommandMap {
 	private var dic:Dictionary;
 	private var injector:IInjector;
 	private var dispatcher:IEvtDispatcher;
 	private var evtUnits:EvtGatherer;
 
-	public function ImplCommandMap(dispatcher:IEvtDispatcher, injector:IInjector) {
+	public function CommandMap(dispatcher:IEvtDispatcher, injector:IInjector) {
 		this.dispatcher=dispatcher;
 		this.injector=injector;
 		dic=new Dictionary;
@@ -30,8 +30,8 @@ internal class ImplCommandMap implements ICommandMap {
 		evtUnits.add(dispatcher.addEvtListener(eventType, eventCatched));
 	}
 
-	private function eventCatched(event:Evt):void {
-		var chain:ICommandChain=new ImplEventChain(event, create(event.type));
+	private function eventCatched(event:Event):void {
+		var chain:ICommandChain=new EventChain(event, create(event.type));
 		chain.next();
 	}
 
