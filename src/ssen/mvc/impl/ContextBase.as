@@ -4,7 +4,7 @@ import ssen.mvc.IContext;
 import ssen.mvc.IContextView;
 import ssen.mvc.IContextViewInjector;
 import ssen.mvc.IEventBus;
-import ssen.mvc.IEvtDispatcher;
+import ssen.mvc.IEventEmitter;
 import ssen.mvc.IInjector;
 import ssen.mvc.IViewCatcher;
 import ssen.mvc.IViewInjector;
@@ -28,7 +28,7 @@ public class ContextBase implements IContext {
 	/** @private */
 	protected function initialize():void {
 		injector.mapValue(IInjector, injector);
-		injector.mapValue(IEvtDispatcher, eventBus.evtDispatcher);
+		injector.mapValue(IEventEmitter, eventBus.eventEmitter);
 		injector.mapValue(IEventBus, eventBus);
 		injector.mapValue(IContextView, contextView);
 		injector.mapValue(ICommandMap, commandMap);
@@ -119,7 +119,7 @@ public class ContextBase implements IContext {
 
 	/** @see ssen.mvc.core.ICommandMap */
 	public function get commandMap():ICommandMap {
-		return _commandMap||=new CommandMap(eventBus.evtDispatcher, injector);
+		return _commandMap||=new CommandMap(eventBus.eventEmitter, injector);
 	}
 }
 }

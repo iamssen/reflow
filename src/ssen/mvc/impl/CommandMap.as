@@ -5,16 +5,16 @@ import flash.utils.Dictionary;
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 import ssen.mvc.ICommandMap;
-import ssen.mvc.IEvtDispatcher;
+import ssen.mvc.IEventEmitter;
 import ssen.mvc.IInjector;
 
 internal class CommandMap implements ICommandMap {
 	private var dic:Dictionary;
 	private var injector:IInjector;
-	private var dispatcher:IEvtDispatcher;
+	private var dispatcher:IEventEmitter;
 	private var evtUnits:EvtGatherer;
 
-	public function CommandMap(dispatcher:IEvtDispatcher, injector:IInjector) {
+	public function CommandMap(dispatcher:IEventEmitter, injector:IInjector) {
 		this.dispatcher=dispatcher;
 		this.injector=injector;
 		dic=new Dictionary;
@@ -27,7 +27,7 @@ internal class CommandMap implements ICommandMap {
 		}
 
 		dic[eventType]=commandClasses;
-		evtUnits.add(dispatcher.addEvtListener(eventType, eventCatched));
+		evtUnits.add(dispatcher.addEventListener(eventType, eventCatched));
 	}
 
 	private function eventCatched(event:Event):void {

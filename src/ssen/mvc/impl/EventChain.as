@@ -1,44 +1,42 @@
 package ssen.mvc.impl {
 import flash.events.Event;
-import flash.utils.Dictionary;
 
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 
 internal class EventChain implements ICommandChain {
-
 	private var _commands:Vector.<ICommand>;
-	private var dic:Dictionary;
-	private var c:int=-1;
-	private var _trigger:Event;
+	private var _data:Object;
+	private var _current:int=-1;
+	private var _event:Event;
 
-	public function EventChain(trigger:Event, commands:Vector.<ICommand>) {
-		_trigger=trigger;
+	public function EventChain(event:Event, commands:Vector.<ICommand>) {
+		_event=event;
 		_commands=commands;
 	}
 
-	public function get cache():Dictionary {
-		if (dic === null) {
-			dic=new Dictionary(true);
+	public function get data():Object {
+		if (_data === null) {
+			_data={};
 		}
 
-		return dic;
+		return _data;
 	}
 
 	public function get current():int {
-		return c;
+		return _current;
 	}
 
 	public function next():void {
-		if (++c < _commands.length) {
-			_commands[c].execute(this);
+		if (++_current < _commands.length) {
+			_commands[_current].execute(this);
 		} else {
 			var f:int=_commands.length;
 			while (--f >= 0) {
 				_commands[f].dispose();
 			}
 			_commands=null;
-			dic=null;
+			_data=null;
 		}
 	}
 
@@ -46,8 +44,8 @@ internal class EventChain implements ICommandChain {
 		return _commands.length;
 	}
 
-	public function get trigger():Event {
-		return _trigger;
+	public function get event():Event {
+		return _event;
 	}
 }
 }
