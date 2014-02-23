@@ -49,8 +49,11 @@ public class Injector implements IInjector {
 	}
 
 	public function injectInto(obj:Object):Object {
+		// 아이디 생성
 		var id:String=getQualifiedClassName(obj);
 
+		// 의존성 맵에 있는지 확인하고, 없다면 생성해준다
+		
 		if (!dependents[id]) {
 			registerDependent(obj);
 		}
@@ -251,6 +254,8 @@ public class Injector implements IInjector {
 	}
 }
 }
+import mx.core.IFactory;
+
 import ssen.common.IDisposable;
 import ssen.mvc.impl.Injector;
 
@@ -347,5 +352,27 @@ class ValueFactory extends InstanceFactory {
 
 		value=null;
 	}
+}
 
+class FactorialFactory extends InstanceFactory {
+	private var type:Class;
+	private var factoryClass:Class;
+
+	public function FactorialFactory(injector:Injector, type:Class, factoryClass:Class) {
+		super(injector);
+		this.type=type;
+		this.factoryClass=factoryClass;
+	}
+
+	override public function getInstance():* {
+		var factory:IFactory=new factoryClass();
+		instanceInitialize(factory);
+		return instanceInitialize(factory.newInstance());
+	}
+
+	override public function dispose():void {
+		super.dispose();
+		type=null;
+		factoryClass=null;
+	}
 }

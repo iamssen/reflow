@@ -4,6 +4,8 @@ import flash.display.DisplayObjectContainer;
 import flash.display.Stage;
 import flash.events.Event;
 
+import mx.core.UIComponent;
+
 import ssen.mvc.IContextView;
 import ssen.mvc.IContextViewInjector;
 import ssen.mvc.IViewCatcher;
@@ -33,8 +35,15 @@ internal class ViewCatcher implements IViewCatcher {
 	}
 
 	public function start(view:IContextView):void {
+		var stage:Stage;
+		if (view is UIComponent) {
+			stage=UIComponent(view).systemManager.stage;
+		} else {
+			stage=DisplayObjectContainer(view).stage;
+		}
+
 		this.view=view as DisplayObjectContainer;
-		this.stage=view.getStage() as Stage;
+		this.stage=stage;
 		this.view.addEventListener(Event.ADDED, added, true);
 		this.stage.addEventListener(Event.ADDED_TO_STAGE, globalAdded, true);
 
