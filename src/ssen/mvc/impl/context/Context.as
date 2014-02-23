@@ -1,4 +1,4 @@
-package ssen.mvc.impl {
+package ssen.mvc.impl.context {
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.IEventDispatcher;
@@ -14,6 +14,7 @@ import ssen.mvc.IParameters;
 import ssen.mvc.IViewCatcher;
 import ssen.mvc.IViewInjector;
 import ssen.mvc.mvc_internal;
+import ssen.mvc.impl.injector.Injector;
 
 use namespace mvc_internal;
 
@@ -48,7 +49,7 @@ public class Context implements IContext {
 
 		mapDependency();
 
-		viewCatcher.start(contextView);
+//		viewCatcher.start(contextView);
 
 		var contextView:DisplayObjectContainer=this.contextView as DisplayObjectContainer;
 

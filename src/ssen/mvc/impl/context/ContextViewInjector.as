@@ -1,4 +1,4 @@
-package ssen.mvc.impl {
+package ssen.mvc.impl.context {
 import ssen.mvc.IContext;
 import ssen.mvc.IContextView;
 import ssen.mvc.IContextViewInjector;
