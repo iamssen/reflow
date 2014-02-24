@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 
 internal class Method implements InjectionTarget {
 	public var methodName:String;

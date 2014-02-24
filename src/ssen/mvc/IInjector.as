@@ -9,6 +9,7 @@ public interface IInjector extends IDisposable {
 	function mapClass(asktype:Class, usetype:Class=null):void;
 	function mapSingleton(asktype:Class, usetype:Class=null):void;
 	function mapValue(asktype:Class, usevalue:Object):void;
+	function mapFactory(asktype:Class, usefactory:Class):void;
 	function unmap(asktype:Class):void;
 }
 }

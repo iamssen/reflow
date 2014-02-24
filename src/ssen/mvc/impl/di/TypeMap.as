@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
 

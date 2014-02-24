@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 
 internal class Instantiate implements InstanceFactory {
 	public var injector:Injector;

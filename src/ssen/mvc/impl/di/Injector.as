@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 import flash.utils.getQualifiedClassName;
 
 import ssen.mvc.IInjector;
@@ -101,6 +101,14 @@ public class Injector implements IInjector {
 		value.instance=usevalue;
 
 		factoryMap.set(getQualifiedClassName(asktype), value);
+	}
+
+	public function mapFactory(askType:Class, factoryType:Class):void {
+		var factory:Factory=new Factory;
+		factory.injector=this;
+		factory.factoryType=factoryType;
+
+		factoryMap.set(getQualifiedClassName(askType), factory);
 	}
 
 	public function unmap(asktype:Class):void {

@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 
 internal interface InstanceFactory {
 	function getInstance():Object;

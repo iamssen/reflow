@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 import mx.core.IFactory;
 
 internal class Factory implements InstanceFactory {

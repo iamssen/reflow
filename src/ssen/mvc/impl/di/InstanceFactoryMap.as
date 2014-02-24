@@ -1,4 +1,4 @@
-package ssen.mvc.impl.injector {
+package ssen.mvc.impl.di {
 
 internal class InstanceFactoryMap {
 	private var map:Object={};
@@ -18,7 +18,7 @@ internal class InstanceFactoryMap {
 	}
 
 	public function has(typeName:String):Boolean {
-		return map[typeName] == undefined;
+		return map[typeName] != undefined;
 	}
 }
 }

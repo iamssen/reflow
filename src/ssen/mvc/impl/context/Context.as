@@ -14,7 +14,7 @@ import ssen.mvc.IParameters;
 import ssen.mvc.IViewCatcher;
 import ssen.mvc.IViewInjector;
 import ssen.mvc.mvc_internal;
-import ssen.mvc.impl.injector.Injector;
+import ssen.mvc.impl.di.Injector;
 
 use namespace mvc_internal;
 
@@ -49,7 +49,7 @@ public class Context implements IContext {
 
 		mapDependency();
 
-//		viewCatcher.start(contextView);
+		//		viewCatcher.start(contextView);
 
 		var contextView:DisplayObjectContainer=this.contextView as DisplayObjectContainer;
 
