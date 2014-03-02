@@ -3,7 +3,10 @@ import flash.utils.Dictionary;
 
 import ssen.mvc.IEventUnit;
 
+// TODO 이름 변경
+// TODO 위치 변경
 internal class Collection {
+	// types["change"][Function]=IEventUnit
 	private var types:Dictionary=new Dictionary;
 
 	public function add(type:String, listener:Function):IEventUnit {

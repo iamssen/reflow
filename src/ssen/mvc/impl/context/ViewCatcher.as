@@ -7,21 +7,16 @@ import flash.events.Event;
 import mx.core.UIComponent;
 
 import ssen.mvc.IContextView;
-import ssen.mvc.IContextViewInjector;
-import ssen.mvc.IViewCatcher;
-import ssen.mvc.IViewInjector;
 
-internal class ViewCatcher implements IViewCatcher {
+internal class ViewCatcher {
 	private var _run:Boolean;
 	private var view:DisplayObjectContainer;
 	private var stage:Stage;
-	private var viewInjector:IViewInjector;
-	private var contextViewInjector:IContextViewInjector;
+	private var viewInjector:ViewInjector;
 	private var contextView:IContextView;
 
-	public function ViewCatcher(viewInjector:IViewInjector, contextViewInjector:IContextViewInjector, contextView:IContextView) {
+	public function ViewCatcher(viewInjector:ViewInjector, contextView:IContextView) {
 		this.viewInjector=viewInjector;
-		this.contextViewInjector=contextViewInjector;
 		this.contextView=contextView;
 	}
 
@@ -31,7 +26,6 @@ internal class ViewCatcher implements IViewCatcher {
 		}
 
 		viewInjector=null;
-		contextViewInjector=null;
 	}
 
 	public function start(view:IContextView):void {
@@ -66,7 +60,9 @@ internal class ViewCatcher implements IViewCatcher {
 			var contextView:IContextView=view as IContextView;
 
 			if (!contextView.contextInitialized) {
-				contextViewInjector.injectInto(contextView);
+				if (!contextView.contextInitialized) {
+					contextView.initialContext(context);
+				}
 			}
 		} else if (viewInjector.hasMapping(view) && !viewInjector.isGlobal(view) && isChild) {
 			viewInjector.injectInto(view);

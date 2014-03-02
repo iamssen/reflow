@@ -5,29 +5,31 @@ import flash.utils.Dictionary;
 import ssen.mvc.ICommand;
 import ssen.mvc.ICommandChain;
 import ssen.mvc.ICommandMap;
-import ssen.mvc.IEventEmitter;
-import ssen.mvc.IInjector;
 
+// TODO EvtGatherer 의존 끊고, 최적화 시키기
 internal class CommandMap implements ICommandMap {
-	private var dic:Dictionary;
-	private var injector:IInjector;
-	private var dispatcher:IEventEmitter;
-	private var evtUnits:EvtGatherer;
+	internal var context:Context;
 
-	public function CommandMap(dispatcher:IEventEmitter, injector:IInjector) {
-		this.dispatcher=dispatcher;
-		this.injector=injector;
-		dic=new Dictionary;
-		evtUnits=new EvtGatherer;
-	}
+	private var dic:Dictionary=new Dictionary;
+	//	private var injector:IInjector;
+	//	private var dispatcher:EventEmitter;
+	private var evtUnits:EvtGatherer=new EvtGatherer;
 
+	//	public function CommandMap(dispatcher:IEventEmitter, injector:IInjector) {
+	//		this.dispatcher=dispatcher;
+	//		this.injector=injector;
+	//		dic=new Dictionary;
+	//		evtUnits=new EvtGatherer;
+	//	}
+
+	// dic["change"]=Vector.<Class.<ICommand>>
 	public function mapCommand(eventType:String, commandClasses:Vector.<Class>):void {
 		if (dic[eventType] !== undefined) {
-			throw new Error("mapped this event type");
+			throw new Error("");
 		}
 
 		dic[eventType]=commandClasses;
-		evtUnits.add(dispatcher.addEventListener(eventType, eventCatched));
+//		evtUnits.add(context._eventBus .addEventListener(eventType, eventCatched));
 	}
 
 	private function eventCatched(event:Event):void {
@@ -61,7 +63,7 @@ internal class CommandMap implements ICommandMap {
 		while (--f >= 0) {
 			cls=commandClasses[f];
 			commands[f]=new cls();
-			injector.injectInto(commands[f]);
+//			injector.injectInto(commands[f]);
 		}
 
 		return commands;
@@ -71,4 +73,31 @@ internal class CommandMap implements ICommandMap {
 		dic=null;
 	}
 }
+}
+import flash.utils.Dictionary;
+
+import ssen.mvc.IEventUnit;
+
+class EvtGatherer {
+	private var map:Dictionary;
+
+	public function add(unit:IEventUnit):void {
+		if (map === null) {
+			map=new Dictionary;
+		}
+
+		if (map.has(unit.type)) {
+			throw new Error("don't add same name event type");
+		} else {
+			map.set(unit.type, unit);
+		}
+	}
+
+	public function remove(type:String):void {
+		if (map.has(type)) {
+			var unit:IEventUnit=map.get(type) as IEventUnit;
+			unit.stop();
+			map.remove(type);
+		}
+	}
 }

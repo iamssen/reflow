@@ -7,7 +7,7 @@ internal class EventUnit implements IEventUnit {
 	internal var _listener:Function;
 	internal var _type:String;
 
-	public function dispose():void {
+	public function stop():void {
 		if (_collection) {
 			_collection.remove(_type, _listener);
 		}

@@ -2,19 +2,18 @@ package ssen.mvc.impl.context {
 import flash.display.DisplayObject;
 import flash.events.Event;
 
-import ssen.common.IDisposable;
-import ssen.mvc.IInjector;
 import ssen.mvc.IMediator;
 
-internal class MediatorController implements IDisposable {
+internal class MediatorController {
+	private var context:Context;
 	private var view:DisplayObject;
 	private var mediator:IMediator;
 
-	public function MediatorController(injector:IInjector, view:DisplayObject, mediatorType:Class) {
+	public function MediatorController(context:Context, view:DisplayObject, mediatorType:Class=null) {
 		this.view=view;
 
 		if (mediatorType) {
-			mediator=injector.injectInto(new mediatorType) as IMediator;
+			mediator=context.injector.injectInto(new mediatorType) as IMediator;
 			mediator.setView(view);
 
 			if (view.stage) {

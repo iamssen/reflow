@@ -16,11 +16,7 @@ internal class EventChain implements ICommandChain {
 	}
 
 	public function get data():Object {
-		if (_data === null) {
-			_data={};
-		}
-
-		return _data;
+		return _data||={};
 	}
 
 	public function get current():int {
@@ -30,14 +26,11 @@ internal class EventChain implements ICommandChain {
 	public function next():void {
 		if (++_current < _commands.length) {
 			_commands[_current].execute(this);
-		} else {
-			var f:int=_commands.length;
-			while (--f >= 0) {
-				_commands[f].dispose();
-			}
-			_commands=null;
-			_data=null;
 		}
+	}
+
+	public function exit():void {
+
 	}
 
 	public function get numCommands():int {

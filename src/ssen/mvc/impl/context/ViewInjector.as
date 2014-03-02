@@ -3,21 +3,28 @@ import flash.display.DisplayObject;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
-import ssen.mvc.IInjector;
 import ssen.mvc.IViewInjector;
 
 internal class ViewInjector implements IViewInjector {
+	// TODO 필수 injection
+	internal var context:Context;
+
 	private var map:Dictionary;
-	private var injector:IInjector;
 
-	public function ViewInjector(injector:IInjector) {
-		this.injector=injector;
-		map=new Dictionary;
-	}
+	//==========================================================================================
+	// implements
+	//==========================================================================================
+	public function mapView(viewClass:Class, mediatorClass:Class=null, global:Boolean=false):void {
+		if (map[viewClass] !== undefined) {
+			throw new Error(getQualifiedClassName(viewClass) + " is mapped!!!");
+		}
 
-	public function dispose():void {
-		map=null;
-		injector=null;
+		var info:ViewInfo=new ViewInfo;
+		info.type=viewClass;
+		info.mediatorType=mediatorClass;
+		info.global=global;
+
+		map[viewClass]=info;
 	}
 
 	public function unmapView(viewClass:Class):void {
@@ -34,7 +41,14 @@ internal class ViewInjector implements IViewInjector {
 		return map[view["constructor"]] !== undefined;
 	}
 
-	public function injectInto(view:Object):void {
+
+
+
+
+	//==========================================================================================
+	// delete
+	//==========================================================================================
+	internal function injectInto(view:Object):void {
 		if (view is DisplayObject) {
 			if (map[view["constructor"]] === undefined) {
 				throw new Error("class is not inject target");
@@ -44,7 +58,8 @@ internal class ViewInjector implements IViewInjector {
 				if (info.mediatorType is Class) {
 					new MediatorController(injector, view as DisplayObject, info.mediatorType);
 				} else {
-					injector.injectInto(view);
+					context.injector.injectInto(view);
+						//					injector.injectInto(view);
 				}
 			}
 		} else {
@@ -52,20 +67,13 @@ internal class ViewInjector implements IViewInjector {
 		}
 	}
 
-	public function mapView(viewClass:Class, mediatorClass:Class=null, global:Boolean=false):void {
-		if (map[viewClass] !== undefined) {
-			throw new Error(getQualifiedClassName(viewClass) + " is mapped!!!");
-		}
-
-		var info:ViewInfo=new ViewInfo;
-		info.type=viewClass;
-		info.mediatorType=mediatorClass;
-		info.global=global;
-
-		map[viewClass]=info;
+	internal function dispose():void {
+		map=null;
+		injector=null;
 	}
 
-	public function isGlobal(view:*):Boolean {
+
+	internal function isGlobal(view:*):Boolean {
 		var info:ViewInfo=(view is Class) ? map[view] : map[view["constructor"]];
 		return info.global;
 	}

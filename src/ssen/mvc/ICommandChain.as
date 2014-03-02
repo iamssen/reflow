@@ -10,5 +10,6 @@ public interface ICommandChain {
 	function get data():Object;
 
 	function next():void;
+	function exit():void;
 }
 }

@@ -1,10 +1,9 @@
 package ssen.mvc.impl.context {
 import flash.events.Event;
 
-import ssen.mvc.IEventEmitter;
 import ssen.mvc.IEventUnit;
 
-internal class EventEmitter implements IEventEmitter {
+internal class EventEmitter {
 	private var collection:Collection;
 
 	public function EventEmitter() {

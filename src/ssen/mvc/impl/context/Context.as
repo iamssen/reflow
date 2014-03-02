@@ -6,12 +6,8 @@ import flash.events.IEventDispatcher;
 import ssen.mvc.ICommandMap;
 import ssen.mvc.IContext;
 import ssen.mvc.IContextView;
-import ssen.mvc.IContextViewInjector;
 import ssen.mvc.IEventBus;
-import ssen.mvc.IEventEmitter;
 import ssen.mvc.IInjector;
-import ssen.mvc.IParameters;
-import ssen.mvc.IViewCatcher;
 import ssen.mvc.IViewInjector;
 import ssen.mvc.mvc_internal;
 import ssen.mvc.impl.di.Injector;
@@ -19,14 +15,14 @@ import ssen.mvc.impl.di.Injector;
 use namespace mvc_internal;
 
 public class Context implements IContext {
-	mvc_internal var _viewCatcher:IViewCatcher;
-	mvc_internal var _viewInjector:IViewInjector;
-	mvc_internal var _contextView:IContextView;
-	mvc_internal var _parentContext:IContext;
-	mvc_internal var _eventBus:IEventBus;
-	mvc_internal var _injector:IInjector;
-	mvc_internal var _contextViewInjector:ContextViewInjector;
-	mvc_internal var _commandMap:CommandMap;
+	internal var _viewCatcher:ViewCatcher;
+
+	internal var _viewInjector:IViewInjector;
+	internal var _contextView:IContextView;
+	internal var _parentContext:IContext;
+	internal var _eventBus:IEventBus;
+	internal var _injector:IInjector;
+	internal var _commandMap:CommandMap;
 
 	public function Context(contextView:IContextView, parentContext:IContext=null, parameters:Object=null) {
 		_parentContext=parentContext;
@@ -40,6 +36,7 @@ public class Context implements IContext {
 	}
 
 	private function initialize():void {
+		injector.mapValue(contextView["constructor"], contextView);
 		injector.mapValue(IInjector, injector);
 		injector.mapValue(IEventEmitter, eventBus.eventEmitter);
 		injector.mapValue(IEventBus, eventBus);
@@ -157,11 +154,14 @@ public class Context implements IContext {
 	// =========================================================
 	// implementation getters
 	// =========================================================
-	final protected function get viewCatcher():IViewCatcher {
+	internal function get viewCatcher():ViewCatcher {
+		if (!_viewCatcher) {
+			_viewCatcher=new ViewCatcher;
+		}
 		return _viewCatcher||=new ViewCatcher(viewInjector, contextViewInjector, contextView);
 	}
 
-	final protected function get viewInjector():IViewInjector {
+	internal function get viewInjector():IViewInjector {
 		return _viewInjector||=new ViewInjector(injector);
 	}
 }

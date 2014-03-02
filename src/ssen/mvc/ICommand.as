@@ -1,7 +1,6 @@
 package ssen.mvc {
-import ssen.common.IDisposable;
 
-public interface ICommand extends IDisposable {
+public interface ICommand {
 	function execute(chain:ICommandChain=null):void;
 }
 }
