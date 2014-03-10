@@ -4,67 +4,50 @@ import flash.display.DisplayObjectContainer;
 import flash.display.Stage;
 import flash.events.Event;
 
-import mx.core.UIComponent;
-
 import ssen.mvc.IContextView;
 
 internal class ViewCatcher {
-	private var _run:Boolean;
-	private var view:DisplayObjectContainer;
+	public var contextView:DisplayObjectContainer;
+	public var context:Context;
+
 	private var stage:Stage;
-	private var viewInjector:ViewInjector;
-	private var contextView:IContextView;
+	private var watched:Boolean;
 
-	public function ViewCatcher(viewInjector:ViewInjector, contextView:IContextView) {
-		this.viewInjector=viewInjector;
-		this.contextView=contextView;
-	}
-
-	public function dispose():void {
-		if (_run) {
-			stop();
+	public function start():void {
+		if (watched) {
+			return;
 		}
 
-		viewInjector=null;
+		contextView.addEventListener(Event.ADDED, addedChildInContext, true);
+		contextView.stage.addEventListener(Event.ADDED_TO_STAGE, addChildInGlobal, true);
+
+		watched=true;
 	}
 
-	public function start(view:IContextView):void {
-		var stage:Stage;
-		if (view is UIComponent) {
-			stage=UIComponent(view).systemManager.stage;
-		} else {
-			stage=DisplayObjectContainer(view).stage;
-		}
-
-		this.view=view as DisplayObjectContainer;
-		this.stage=stage;
-		this.view.addEventListener(Event.ADDED, added, true);
-		this.stage.addEventListener(Event.ADDED_TO_STAGE, globalAdded, true);
-
-		_run=true;
-	}
-
-	private function globalAdded(event:Event):void {
+	private function addChildInGlobal(event:Event):void {
 		var view:DisplayObject=event.target as DisplayObject;
+		var viewInjector:ViewInjector=context.viewInjector;
 
 		if (viewInjector.hasMapping(view) && viewInjector.isGlobal(view)) {
 			viewInjector.injectInto(view);
 		}
 	}
 
-	private function added(event:Event):void {
+	private function addedChildInContext(event:Event):void {
 		var view:DisplayObject=event.target as DisplayObject;
 		var isChild:Boolean=isMyChild(view);
 
 		if (view is IContextView && isChild) {
+			// context view
 			var contextView:IContextView=view as IContextView;
-
 			if (!contextView.contextInitialized) {
 				if (!contextView.contextInitialized) {
 					contextView.initialContext(context);
 				}
 			}
 		} else if (viewInjector.hasMapping(view) && !viewInjector.isGlobal(view) && isChild) {
+			var viewInjector:ViewInjector=context.viewInjector;
+			// view
 			viewInjector.injectInto(view);
 		}
 	}
@@ -92,16 +75,16 @@ internal class ViewCatcher {
 	}
 
 	public function stop():void {
-		view.removeEventListener(Event.ADDED, added, true);
-		stage.removeEventListener(Event.ADDED_TO_STAGE, globalAdded, true);
-
-		_run=false;
-		view=null;
-		stage=null;
+//		view.removeEventListener(Event.ADDED, added, true);
+//		stage.removeEventListener(Event.ADDED_TO_STAGE, globalAdded, true);
+//
+//		_run=false;
+//		view=null;
+//		stage=null;
 	}
 
-	public function isRun():Boolean {
-		return _run;
-	}
+//	public function isRun():Boolean {
+//		return _run;
+//	}
 }
 }

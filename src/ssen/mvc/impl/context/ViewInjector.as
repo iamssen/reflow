@@ -49,27 +49,27 @@ internal class ViewInjector implements IViewInjector {
 	// delete
 	//==========================================================================================
 	internal function injectInto(view:Object):void {
-		if (view is DisplayObject) {
-			if (map[view["constructor"]] === undefined) {
-				throw new Error("class is not inject target");
-			} else {
-				var info:ViewInfo=map[view["constructor"]];
-
-				if (info.mediatorType is Class) {
-					new MediatorController(injector, view as DisplayObject, info.mediatorType);
-				} else {
-					context.injector.injectInto(view);
-						//					injector.injectInto(view);
-				}
-			}
-		} else {
-			throw new Error("view is just DisplayObject");
-		}
+		//		if (view is DisplayObject) {
+		//			if (map[view["constructor"]] === undefined) {
+		//				throw new Error("class is not inject target");
+		//			} else {
+		//				var info:ViewInfo=map[view["constructor"]];
+		//
+		//				if (info.mediatorType is Class) {
+		//					new MediatorController(injector, view as DisplayObject, info.mediatorType);
+		//				} else {
+		//					context.injector.injectInto(view);
+		//						//					injector.injectInto(view);
+		//				}
+		//			}
+		//		} else {
+		//			throw new Error("view is just DisplayObject");
+		//		}
 	}
 
 	internal function dispose():void {
-		map=null;
-		injector=null;
+		//		map=null;
+		//		injector=null;
 	}
 
 

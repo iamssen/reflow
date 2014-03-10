@@ -3,7 +3,6 @@ import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.IEventDispatcher;
 
-import ssen.mvc.ICommandMap;
 import ssen.mvc.IContext;
 import ssen.mvc.IContextView;
 import ssen.mvc.IEventBus;
@@ -15,6 +14,10 @@ import ssen.mvc.impl.di.Injector;
 use namespace mvc_internal;
 
 public class Context implements IContext {
+//	private var initialized
+	
+	
+
 	internal var _viewCatcher:ViewCatcher;
 
 	internal var _viewInjector:IViewInjector;
@@ -24,29 +27,34 @@ public class Context implements IContext {
 	internal var _injector:IInjector;
 	internal var _commandMap:CommandMap;
 
-	public function Context(contextView:IContextView, parentContext:IContext=null, parameters:Object=null) {
-		_parentContext=parentContext;
-		_contextView=contextView;
-
-		if (parameters) {
-			injector.mapValue(IParameters, new Parameters(parameters));
-		}
-
-		initialize();
+	public function Context() {
+		//		_parentContext=parentContext;
+		//		_contextView=contextView;
+		//		initialize();
 	}
 
+	public function initialized(document:Object, id:String):void {
+
+	}
+
+	public function init(document:Object):void {
+
+	}
+
+
+
 	private function initialize():void {
-		injector.mapValue(contextView["constructor"], contextView);
-		injector.mapValue(IInjector, injector);
-		injector.mapValue(IEventEmitter, eventBus.eventEmitter);
-		injector.mapValue(IEventBus, eventBus);
-		injector.mapValue(IContextView, contextView);
-		injector.mapValue(ICommandMap, commandMap);
-		injector.mapValue(IViewInjector, viewInjector);
-
-		mapDependency();
-
-		//		viewCatcher.start(contextView);
+		//		injector.mapValue(contextView["constructor"], contextView);
+		//		injector.mapValue(IInjector, injector);
+		//		injector.mapValue(IEventEmitter, eventBus.eventEmitter);
+		//		injector.mapValue(IEventBus, eventBus);
+		//		injector.mapValue(IContextView, contextView);
+		//		injector.mapValue(ICommandMap, commandMap);
+		//		injector.mapValue(IViewInjector, viewInjector);
+		//
+		//		mapDependency();
+		//
+		//		//		viewCatcher.start(contextView);
 
 		var contextView:DisplayObjectContainer=this.contextView as DisplayObjectContainer;
 
@@ -71,24 +79,24 @@ public class Context implements IContext {
 	// dispose resources
 	// ==========================================================================================
 	protected function dispose():void {
-		viewCatcher.stop();
-
-		eventBus.dispose();
-		injector.dispose();
-		viewCatcher.dispose();
-		viewInjector.dispose();
-		contextViewInjector.dispose();
-		commandMap.dispose();
-
-		_contextView=null;
-		_parentContext=null;
-		_eventBus=null;
-		_injector=null;
-		_contextViewInjector=null;
-		_commandMap=null;
-
-		_viewCatcher=null;
-		_viewInjector=null;
+		//		viewCatcher.stop();
+		//
+		//		eventBus.dispose();
+		//		injector.dispose();
+		//		viewCatcher.dispose();
+		//		viewInjector.dispose();
+		//		contextViewInjector.dispose();
+		//		commandMap.dispose();
+		//
+		//		_contextView=null;
+		//		_parentContext=null;
+		//		_eventBus=null;
+		//		_injector=null;
+		//		_contextViewInjector=null;
+		//		_commandMap=null;
+		//
+		//		_viewCatcher=null;
+		//		_viewInjector=null;
 	}
 
 	// =========================================================
@@ -117,7 +125,7 @@ public class Context implements IContext {
 			return _eventBus;
 		}
 
-		_eventBus=parentContext === null ? new EventBus : new EventBus(parentContext.eventBus);
+		//		_eventBus=parentContext === null ? new EventBus : new EventBus(parentContext.eventBus);
 
 		return _eventBus;
 	}
@@ -143,26 +151,28 @@ public class Context implements IContext {
 		dispose();
 	}
 
-	protected function get contextViewInjector():IContextViewInjector {
-		return _contextViewInjector||=new ContextViewInjector(this);
-	}
-
-	public function get commandMap():ICommandMap {
-		return _commandMap||=new CommandMap(eventBus.eventEmitter, injector);
-	}
+	//	protected function get contextViewInjector():IContextViewInjector {
+	//		return _contextViewInjector||=new ContextViewInjector(this);
+	//	}
+	//
+	//	public function get commandMap():ICommandMap {
+	//		return _commandMap||=new CommandMap(eventBus.eventEmitter, injector);
+	//	}
 
 	// =========================================================
 	// implementation getters
 	// =========================================================
 	internal function get viewCatcher():ViewCatcher {
-		if (!_viewCatcher) {
-			_viewCatcher=new ViewCatcher;
-		}
-		return _viewCatcher||=new ViewCatcher(viewInjector, contextViewInjector, contextView);
+		//		if (!_viewCatcher) {
+		//			_viewCatcher=new ViewCatcher;
+		//		}
+		//		return _viewCatcher||=new ViewCatcher(viewInjector, contextViewInjector, contextView);
+		return null;
 	}
 
-	internal function get viewInjector():IViewInjector {
-		return _viewInjector||=new ViewInjector(injector);
+	internal function get viewInjector():ViewInjector {
+		//		return _viewInjector||=new ViewInjector(injector);
+		return null;
 	}
 }
 }
