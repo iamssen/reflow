@@ -1,6 +1,6 @@
 package ssen.mvc {
 
-public interface IViewInjector {
+public interface IViewMap {
 	function mapView(viewClass:Class, mediatorClass:Class=null, global:Boolean=false):void;
 
 	function unmapView(viewClass:Class):void;

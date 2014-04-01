@@ -18,6 +18,10 @@ public class Injector implements IInjector {
 		return child;
 	}
 
+	mvc_internal function setParent(parent:Injector):void {
+		this.parent=parent;
+	}
+
 	//==========================================================================================
 	// factories logic
 	//==========================================================================================
@@ -109,6 +113,10 @@ public class Injector implements IInjector {
 		factory.factoryType=factoryType;
 
 		factoryMap.set(getQualifiedClassName(askType), factory);
+	}
+
+	public function mapPath(askType:Class, host:Object, ... paths):void {
+
 	}
 
 	public function unmap(asktype:Class):void {

@@ -3,7 +3,7 @@ package ssen.mvc.impl.context {
 import ssen.mvc.IEventUnit;
 
 internal class EventUnit implements IEventUnit {
-	internal var _collection:Collection;
+	internal var _collection:EventCollection;
 	internal var _listener:Function;
 	internal var _type:String;
 

@@ -6,23 +6,47 @@ import ssen.mvc.IEventBus;
 import ssen.mvc.IEventUnit;
 
 internal class EventBus implements IEventBus {
+	//==========================================================================================
+	// properties
+	//==========================================================================================
+	//----------------------------------------------------------------
+	// tree
+	//----------------------------------------------------------------
+	private var parent:EventBus;
+
+	//----------------------------------------------------------------
+	// emitters
+	//----------------------------------------------------------------
 	private static var globalEmitter:EventEmitter;
 	private var eventEmitter:EventEmitter;
 
-	private var parent:EventBus;
-
+	//----------------------------------------------------------------
+	// events
+	//----------------------------------------------------------------
 	private var fromParentContext:IEventUnit;
 	private var fromGlobalContext:IEventUnit;
 	private var fromChildrenContext:IEventUnit;
 
+	//==========================================================================================
+	// constructor
+	//==========================================================================================
 	public function EventBus(parentEventBus:EventBus=null) {
 		if (globalEmitter === null) {
 			globalEmitter=new EventEmitter;
 		}
 
 		eventEmitter=new EventEmitter;
-		parent=parentEventBus;
 
+		parent=parentEventBus;
+	}
+
+	//==========================================================================================
+	// life cycle
+	//==========================================================================================
+	public function setContext(hostContext:Context):void {
+	}
+
+	public function start():void {
 		if (parent) {
 			fromParentContext=parent.eventEmitter.addEventListener(ContextEvent.FROM_PARENT_CONTEXT, catchOutsideEvent);
 		}
@@ -30,6 +54,29 @@ internal class EventBus implements IEventBus {
 		fromChildrenContext=eventEmitter.addEventListener(ContextEvent.FROM_CHILDREN_CONTEXT, catchOutsideEvent);
 	}
 
+	public function stop():void {
+		if (fromParentContext) {
+			fromParentContext.stop();
+		}
+		fromGlobalContext.stop();
+		fromChildrenContext.stop();
+	}
+
+	public function dispose():void {
+		eventEmitter.dispose();
+
+		fromGlobalContext=null;
+		fromParentContext=null;
+		fromChildrenContext=null;
+
+		eventEmitter=null;
+
+		parent=null;
+	}
+
+	//==========================================================================================
+	// event handlers
+	//==========================================================================================
 	private function catchOutsideEvent(event:ContextEvent):void {
 		eventEmitter.emitEvent(event.evt);
 
@@ -42,6 +89,9 @@ internal class EventBus implements IEventBus {
 		}
 	}
 
+	//==========================================================================================
+	// implements IEventBus
+	//==========================================================================================
 	//----------------------------------------------------------------
 	// dispatcher method
 	//----------------------------------------------------------------
@@ -80,21 +130,6 @@ internal class EventBus implements IEventBus {
 		} else {
 			throw new Error("unknown dispatch target :: " + to);
 		}
-	}
-
-	public function stop():void {
-		if (fromParentContext) {
-			fromParentContext.stop();
-		}
-		fromGlobalContext.stop();
-		fromChildrenContext.stop();
-		eventEmitter.dispose();
-
-		fromGlobalContext=null;
-		fromParentContext=null;
-		fromChildrenContext=null;
-		eventEmitter=null;
-		parent=null;
 	}
 }
 }

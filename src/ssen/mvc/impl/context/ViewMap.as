@@ -1,11 +1,10 @@
 package ssen.mvc.impl.context {
-import flash.display.DisplayObject;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
-import ssen.mvc.IViewInjector;
+import ssen.mvc.IViewMap;
 
-internal class ViewInjector implements IViewInjector {
+internal class ViewMap implements IViewMap {
 	// TODO 필수 injection
 	internal var context:Context;
 

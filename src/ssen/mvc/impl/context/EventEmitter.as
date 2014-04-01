@@ -4,10 +4,10 @@ import flash.events.Event;
 import ssen.mvc.IEventUnit;
 
 internal class EventEmitter {
-	private var collection:Collection;
+	private var collection:EventCollection;
 
 	public function EventEmitter() {
-		collection=new Collection;
+		collection=new EventCollection;
 	}
 
 	public function addEventListener(type:String, listener:Function):IEventUnit {

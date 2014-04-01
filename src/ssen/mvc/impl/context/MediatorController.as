@@ -3,6 +3,9 @@ import flash.display.DisplayObject;
 import flash.events.Event;
 
 import ssen.mvc.IMediator;
+import ssen.mvc.mvc_internal;
+
+use namespace mvc_internal;
 
 internal class MediatorController {
 	private var context:Context;
