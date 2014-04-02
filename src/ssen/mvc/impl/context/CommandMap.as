@@ -1,6 +1,7 @@
 package ssen.mvc.impl.context {
 import flash.events.Event;
 import flash.utils.Dictionary;
+import flash.utils.getQualifiedClassName;
 
 import ssen.mvc.ICommandMap;
 import ssen.mvc.mvc_internal;
@@ -12,17 +13,26 @@ internal class CommandMap implements ICommandMap {
 	//==========================================================================================
 	// properties
 	//==========================================================================================
+	//----------------------------------------------------------------
+	// dependent
+	//----------------------------------------------------------------
 	private var context:Context;
 
+	//----------------------------------------------------------------
+	// variables
+	//----------------------------------------------------------------
 	// dic["eventType"]=CommandInfo
-	private var commandInfos:Dictionary=new Dictionary;
+	private var commandInfos:Dictionary;
 
+	//==========================================================================================
+	// constructor
+	//==========================================================================================
 	public function CommandMap() {
 		commandInfos=new Dictionary;
 	}
 
 	//==========================================================================================
-	// life cycle
+	// life cycle on context
 	//==========================================================================================
 	public function setContext(hostContext:Context):void {
 		context=hostContext;
@@ -37,7 +47,18 @@ internal class CommandMap implements ICommandMap {
 	//==========================================================================================
 	public function mapCommand(eventType:String, commandClasses:Vector.<Class>):void {
 		if (commandInfos[eventType] !== undefined) {
-			throw new Error("");
+			commandInfo=commandInfos[eventType];
+			commandClasses=commandInfo.commandClasses;
+
+			var commandNames:Vector.<String>=new Vector.<String>;
+
+			var f:int=-1;
+			var fmax:int=commandClasses.length;
+			while (++f < fmax) {
+				commandNames.push(getQualifiedClassName(commandClasses[f]));
+			}
+
+			throw new Error(eventType + " is previously maped commands :: " + commandNames.join(", "));
 		}
 
 		var commandInfo:CommandInfo=new CommandInfo;
@@ -46,16 +67,6 @@ internal class CommandMap implements ICommandMap {
 		commandInfo.commandClasses=commandClasses;
 
 		commandInfos[eventType]=commandInfo;
-	}
-
-	private function eventHandler(event:Event):void {
-		var commandInfo:CommandInfo=commandInfos[event.type];
-
-		if (commandInfo) {
-			new CommandChain(event, context._injector, commandInfo.commandClasses).next();
-		} else {
-			throw new Error("Undefined event type :: " + event.type);
-		}
 	}
 
 	public function unmapCommand(eventType:String):void {
@@ -71,38 +82,26 @@ internal class CommandMap implements ICommandMap {
 	public function hasCommand(eventType:String):Boolean {
 		return commandInfos[eventType] !== undefined;
 	}
-}
-}
-import flash.utils.Dictionary;
 
+	//==========================================================================================
+	// event handlers
+	//==========================================================================================
+	private function eventHandler(event:Event):void {
+		var commandInfo:CommandInfo=commandInfos[event.type];
+
+		if (commandInfo) {
+			new CommandChain(event, context._injector, commandInfo.commandClasses).next();
+		} else {
+			throw new Error("Undefined event type :: " + event.type);
+		}
+	}
+}
+}
 import ssen.mvc.IEventListener;
 
 class CommandInfo {
 	public var eventType:String;
 	public var eventListener:IEventListener;
 	public var commandClasses:Vector.<Class>;
-}
 
-class EvtGatherer {
-	private var map:Dictionary;
-
-	public function add(unit:IEventListener):void {
-		if (map === null) {
-			map=new Dictionary;
-		}
-
-		if (map.has(unit.type)) {
-			throw new Error("don't add same name event type");
-		} else {
-			map.set(unit.type, unit);
-		}
-	}
-
-	public function remove(type:String):void {
-		if (map.has(type)) {
-			var unit:IEventListener=map.get(type) as IEventListener;
-			unit.remove();
-			map.remove(type);
-		}
-	}
 }

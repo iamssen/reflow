@@ -3,6 +3,7 @@ import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;
 
+/** @private implements class */
 internal class Property implements InjectionTarget {
 	public var propertyName:String;
 	public var valueType:String;

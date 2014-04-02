@@ -5,12 +5,26 @@ import ssen.mvc.IEventListener;
 
 /** @private implements class */
 internal class ContextEventDispatcher {
+	//==========================================================================================
+	// properties
+	//==========================================================================================
 	private var collection:EventCollection;
 
+	//==========================================================================================
+	// constructor and life cycle
+	//==========================================================================================
 	public function ContextEventDispatcher() {
 		collection=new EventCollection;
 	}
 
+	public function dispose():void {
+		collection.dispose();
+		collection=null;
+	}
+
+	//==========================================================================================
+	// apis
+	//==========================================================================================
 	public function addEventListener(type:String, listener:Function):IEventListener {
 		return collection.add(type, listener);
 	}
@@ -30,11 +44,6 @@ internal class ContextEventDispatcher {
 		while (--f >= 0) {
 			units[f].listener(event);
 		}
-	}
-
-	public function dispose():void {
-		collection.dispose();
-		collection=null;
 	}
 }
 }

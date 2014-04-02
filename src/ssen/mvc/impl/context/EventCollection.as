@@ -5,9 +5,15 @@ import ssen.mvc.IEventListener;
 
 /** @private implements class */
 internal class EventCollection {
+	//==========================================================================================
+	// properties
+	//==========================================================================================
 	// types["change"][Function]=IEventUnit
 	private var types:Dictionary=new Dictionary;
 
+	//==========================================================================================
+	// apis
+	//==========================================================================================
 	public function add(type:String, listener:Function):IEventListener {
 		if (types[type] !== undefined && types[type][listener] !== undefined) {
 			return types[type][listener];

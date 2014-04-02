@@ -2,7 +2,7 @@ package ssen.mvc.impl.di {
 import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
 
-
+/** @private implements class */
 internal class TypeMap {
 	// [name.space::Class] = Vector.<InjectionTarget>
 	private var types:Object={};
@@ -104,7 +104,7 @@ internal class TypeMap {
 
 		types[typeName]=injectionTargets;
 	}
-	
+
 	public function getInjectionTargets(instance:Object):Vector.<InjectionTarget> {
 		return types[getQualifiedClassName(instance)];
 	}

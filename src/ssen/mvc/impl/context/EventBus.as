@@ -42,7 +42,7 @@ internal class EventBus implements IEventBus {
 	}
 
 	//==========================================================================================
-	// life cycle
+	// life cycle on context
 	//==========================================================================================
 	public function setContext(hostContext:Context):void {
 	}

@@ -22,10 +22,11 @@ internal class ViewMap implements IViewMap {
 	//----------------------------------------------------------------
 	// variables
 	//----------------------------------------------------------------
+	// map[ViewClass:Class]=ViewInfo
 	private var map:Dictionary;
 
 	//==========================================================================================
-	// life cycle
+	// life cycle on context
 	//==========================================================================================
 	public function setContext(hostContext:Context):void {
 		context=hostContext;

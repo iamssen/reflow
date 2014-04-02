@@ -24,7 +24,7 @@ internal class ViewWatcher {
 	private var started:Boolean;
 
 	//==========================================================================================
-	// life cycle
+	// life cycle on context
 	//==========================================================================================
 	public function setContext(hostContext:Context):void {
 		context=hostContext;

@@ -2,6 +2,7 @@ package ssen.mvc.impl.context {
 import flash.display.DisplayObject;
 import flash.display.Stage;
 import flash.utils.Dictionary;
+import flash.utils.getQualifiedClassName;
 
 import ssen.mvc.mvc_internal;
 
@@ -23,18 +24,24 @@ internal class ContextMap {
 	}
 
 	//==========================================================================================
-	// 
+	// properties
 	//==========================================================================================
+	// dic[Context]=ContextInfo
 	private var contextKeys:Dictionary=new Dictionary;
+
+	// dic[DisplayObject]=ContextInfo
 	private var contextViewKeys:Dictionary=new Dictionary;
 
+	//==========================================================================================
+	// apis
+	//==========================================================================================
 	public function register(context:Context, parentContext:Context=null):void {
 		if (contextKeys[context] !== undefined) {
-			throw new Error("!!!!");
+			throw new Error(getQualifiedClassName(context) + " is previously registered");
 		}
 
+		// make ContextInfo
 		var contextInfo:ContextInfo=new ContextInfo;
-		var contextView:DisplayObject=context.contextView;
 
 		contextInfo.context=context;
 
@@ -43,11 +50,13 @@ internal class ContextMap {
 			contextInfo.parentContextDefined=true;
 		}
 
+		// bookmark to dic
 		contextKeys[context]=contextInfo;
-		contextViewKeys[contextView]=contextInfo;
+		contextViewKeys[context.contextView]=contextInfo;
 	}
 
 	public function deregister(context:Context):void {
+		// delete bookmarks
 		if (contextKeys[context] !== undefined) {
 			delete contextKeys[context];
 		}
@@ -62,12 +71,20 @@ internal class ContextMap {
 	//	}
 
 	public function getParentContext(context:Context):Context {
+		// if registered context
 		if (contextKeys[context] !== undefined) {
 			var contextInfo:ContextInfo=contextKeys[context];
 			var parentContextInfo:ContextInfo;
 
+			// if not defined parent context
 			if (!contextInfo.parentContextDefined) {
+
+				// defined parent context by display tree (search directions to parent)
 				var container:DisplayObject=contextInfo.context.contextView.parent;
+
+				if (!container) {
+					throw new Error("Not added ContextView into Stage");
+				}
 
 				while (!(container is Stage)) {
 					if (contextViewKeys[container] !== undefined) {

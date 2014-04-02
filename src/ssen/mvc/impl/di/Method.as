@@ -3,6 +3,7 @@ import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;
 
+/** @private implements class */
 internal class Method implements InjectionTarget {
 	public var methodName:String;
 	public var argumentsTypes:Vector.<String>=new Vector.<String>;

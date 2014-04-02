@@ -1,5 +1,6 @@
 package ssen.mvc.impl.di {
 
+/** @private implements class */
 internal class InstanceFactoryMap {
 	private var map:Object={};
 

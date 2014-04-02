@@ -1,5 +1,6 @@
 package ssen.mvc.impl.di {
 
+/** @private implements class */
 internal class Value implements InstanceFactory {
 	public var instance:Object;
 

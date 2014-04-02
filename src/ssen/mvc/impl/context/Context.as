@@ -15,6 +15,9 @@ import ssen.mvc.impl.di.Injector;
 
 use namespace mvc_internal;
 
+/**
+ * MVC Module Context
+ */
 public class Context implements IMXMLObject {
 	//==========================================================================================
 	// properties
@@ -30,16 +33,28 @@ public class Context implements IMXMLObject {
 	//---------------------------------------------
 	// display objecties
 	//---------------------------------------------
+	/** @private */
 	mvc_internal var contextView:DisplayObject;
+
+	/** @private */
 	mvc_internal var stage:Stage;
+
 	//---------------------------------------------
 	// parts
 	//---------------------------------------------
+	/** @private */
 	mvc_internal var _eventBus:EventBus;
+
+	/** @private */
 	mvc_internal var _commandMap:CommandMap;
+
+	/** @private */
 	mvc_internal var _viewMap:ViewMap;
+
+	/** @private */
 	mvc_internal var _injector:Injector;
-	private var viewWatcher:ViewWatcher;
+
+	private var _viewWatcher:ViewWatcher;
 
 	//==========================================================================================
 	// getters
@@ -63,25 +78,34 @@ public class Context implements IMXMLObject {
 	//==========================================================================================
 	// abstract functions
 	//==========================================================================================
+	/** [Abstract] Configuration dependency for your module context */
 	protected function mapDependency():void {
 	}
 
+	/** [Abstract] Context startup hook (run at Event.ADDED_TO_STAGE) */
 	protected function startup():void {
 	}
 
+	/** [Abstract] Context shutdown hook (run at EVENT.REMOVED_FROM_STAGE) */
 	protected function shutdown():void {
+	}
+
+	/**
+	 * @private Set parent context forcibly into this context.
+	 *
+	 * if you want ignore automation make context tree by display object tree
+	 */
+	mvc_internal function getParentContext():Context {
+		return null;
 	}
 
 	//==========================================================================================
 	// context life cycle
 	//==========================================================================================
+	/** @private IMXMLObject initialized */
 	public function initialized(document:Object, id:String):void {
 		contextView=document as DisplayObject;
-		contextView.addEventListener(Event.ADDED, onAdded);		
-	}
-
-	mvc_internal function getParentContext():Context {
-		return null;
+		contextView.addEventListener(Event.ADDED, onAdded);
 	}
 
 	private function onAdded(event:Event):void {
@@ -90,9 +114,9 @@ public class Context implements IMXMLObject {
 		if (!stage) {
 			return;
 		}
-		
+
 		contextView.removeEventListener(Event.ADDED, onAdded);
-		
+
 		ContextMap.getInstance().register(this, getParentContext());
 
 		//----------------------------------------------------------------
@@ -105,13 +129,13 @@ public class Context implements IMXMLObject {
 		_injector=hasParent ? parentContext._injector.createChildInjector() as Injector : new Injector;
 		_commandMap=new CommandMap;
 		_viewMap=new ViewMap;
-		viewWatcher=new ViewWatcher;
+		_viewWatcher=new ViewWatcher;
 
 		// set dependent to instances
 		_eventBus.setContext(this);
 		_commandMap.setContext(this);
 		_viewMap.setContext(this);
-		viewWatcher.setContext(this);
+		_viewWatcher.setContext(this);
 
 		//----------------------------------------------------------------
 		// 10. map dependencies
@@ -131,7 +155,7 @@ public class Context implements IMXMLObject {
 		// 20. start watch
 		//----------------------------------------------------------------
 		_eventBus.start();
-		viewWatcher.start();
+		_viewWatcher.start();
 
 		contextView.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
@@ -159,7 +183,7 @@ public class Context implements IMXMLObject {
 		// 90. unwatch all watchable instances
 		//----------------------------------------------------------------
 		_eventBus.stop();
-		viewWatcher.stop();
+		_viewWatcher.stop();
 
 		//----------------------------------------------------------------
 		// 95. remove all instances
@@ -167,12 +191,12 @@ public class Context implements IMXMLObject {
 		_eventBus.dispose();
 		_commandMap.dispose();
 		_viewMap.dispose();
-		viewWatcher.dispose();
+		_viewWatcher.dispose();
 
 		_eventBus=null;
 		_commandMap=null;
 		_viewMap=null;
-		viewWatcher=null;
+		_viewWatcher=null;
 
 		ContextMap.getInstance().deregister(this);
 	}
