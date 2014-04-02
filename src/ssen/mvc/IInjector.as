@@ -4,7 +4,7 @@ public interface IInjector {
 	//==========================================================================================
 	// tree
 	//==========================================================================================
-	function createChild():IInjector;
+	function createChildInjector():IInjector;
 
 	//==========================================================================================
 	// get
@@ -20,7 +20,6 @@ public interface IInjector {
 	function mapSingleton(asktype:Class, usetype:Class=null):void;
 	function mapValue(asktype:Class, usevalue:Object):void;
 	function mapFactory(asktype:Class, usefactory:Class):void;
-	function mapPath(askType:Class, host:Object, ... paths):void;
 
 	//==========================================================================================
 	// unmap

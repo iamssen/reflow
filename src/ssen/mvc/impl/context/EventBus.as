@@ -1,10 +1,11 @@
 package ssen.mvc.impl.context {
 import flash.events.Event;
 
-import ssen.mvc.EmitTo;
+import ssen.mvc.DispatchTo;
 import ssen.mvc.IEventBus;
-import ssen.mvc.IEventUnit;
+import ssen.mvc.IEventListener;
 
+/** @private implements class */
 internal class EventBus implements IEventBus {
 	//==========================================================================================
 	// properties
@@ -17,25 +18,25 @@ internal class EventBus implements IEventBus {
 	//----------------------------------------------------------------
 	// emitters
 	//----------------------------------------------------------------
-	private static var globalEmitter:EventEmitter;
-	private var eventEmitter:EventEmitter;
+	private static var globalDispatcher:ContextEventDispatcher;
+	private var dispatcher:ContextEventDispatcher;
 
 	//----------------------------------------------------------------
 	// events
 	//----------------------------------------------------------------
-	private var fromParentContext:IEventUnit;
-	private var fromGlobalContext:IEventUnit;
-	private var fromChildrenContext:IEventUnit;
+	private var fromParentContext:IEventListener;
+	private var fromGlobalContext:IEventListener;
+	private var fromChildrenContext:IEventListener;
 
 	//==========================================================================================
 	// constructor
 	//==========================================================================================
 	public function EventBus(parentEventBus:EventBus=null) {
-		if (globalEmitter === null) {
-			globalEmitter=new EventEmitter;
+		if (globalDispatcher === null) {
+			globalDispatcher=new ContextEventDispatcher;
 		}
 
-		eventEmitter=new EventEmitter;
+		dispatcher=new ContextEventDispatcher;
 
 		parent=parentEventBus;
 	}
@@ -48,28 +49,28 @@ internal class EventBus implements IEventBus {
 
 	public function start():void {
 		if (parent) {
-			fromParentContext=parent.eventEmitter.addEventListener(ContextEvent.FROM_PARENT_CONTEXT, catchOutsideEvent);
+			fromParentContext=parent.dispatcher.addEventListener(ContextEvent.FROM_PARENT_CONTEXT, contextEventHandler);
 		}
-		fromGlobalContext=globalEmitter.addEventListener(ContextEvent.FROM_GLOBAL_CONTEXT, catchOutsideEvent);
-		fromChildrenContext=eventEmitter.addEventListener(ContextEvent.FROM_CHILDREN_CONTEXT, catchOutsideEvent);
+		fromGlobalContext=globalDispatcher.addEventListener(ContextEvent.FROM_GLOBAL_CONTEXT, contextEventHandler);
+		fromChildrenContext=dispatcher.addEventListener(ContextEvent.FROM_CHILDREN_CONTEXT, contextEventHandler);
 	}
 
 	public function stop():void {
 		if (fromParentContext) {
-			fromParentContext.stop();
+			fromParentContext.remove();
 		}
-		fromGlobalContext.stop();
-		fromChildrenContext.stop();
+		fromGlobalContext.remove();
+		fromChildrenContext.remove();
 	}
 
 	public function dispose():void {
-		eventEmitter.dispose();
+		dispatcher.dispose();
 
 		fromGlobalContext=null;
 		fromParentContext=null;
 		fromChildrenContext=null;
 
-		eventEmitter=null;
+		dispatcher=null;
 
 		parent=null;
 	}
@@ -77,14 +78,14 @@ internal class EventBus implements IEventBus {
 	//==========================================================================================
 	// event handlers
 	//==========================================================================================
-	private function catchOutsideEvent(event:ContextEvent):void {
-		eventEmitter.emitEvent(event.evt);
+	private function contextEventHandler(event:ContextEvent):void {
+		dispatcher.dispatchEvent(event.evt);
 
 		if (event.penetrate) {
 			if (event.type === ContextEvent.FROM_CHILDREN_CONTEXT) {
-				emitEvent(event.evt, EmitTo.PARENT, true);
+				dispatchEvent(event.evt, DispatchTo.PARENT, true);
 			} else if (event.type === ContextEvent.FROM_PARENT_CONTEXT) {
-				emitEvent(event.evt, EmitTo.CHILDREN, true);
+				dispatchEvent(event.evt, DispatchTo.CHILDREN, true);
 			}
 		}
 	}
@@ -95,19 +96,14 @@ internal class EventBus implements IEventBus {
 	//----------------------------------------------------------------
 	// dispatcher method
 	//----------------------------------------------------------------
-	public function addEventListener(type:String, listener:Function):IEventUnit {
-		return eventEmitter.addEventListener(type, listener);
+	public function addEventListener(type:String, listener:Function):IEventListener {
+		return dispatcher.addEventListener(type, listener);
 	}
 
-	public function on(type:String, listener:Function):IEventUnit {
+	public function on(type:String, listener:Function):IEventListener {
 		return addEventListener(type, listener);
 	}
 
-
-
-	//----------------------------------------------------------------
-	// 
-	//----------------------------------------------------------------
 	public function get parentEventBus():IEventBus {
 		return parent;
 	}
@@ -116,19 +112,19 @@ internal class EventBus implements IEventBus {
 		return new EventBus(this);
 	}
 
-	public function emitEvent(evt:Event, to:String="self", penetrate:Boolean=false):void {
-		if (to == EmitTo.CHILDREN) {
-			eventEmitter.emitEvent(new ContextEvent(ContextEvent.FROM_PARENT_CONTEXT, evt, penetrate));
-		} else if (to == EmitTo.GLOBAL) {
-			globalEmitter.emitEvent(new ContextEvent(ContextEvent.FROM_GLOBAL_CONTEXT, evt, penetrate));
-		} else if (to == EmitTo.PARENT) {
+	public function dispatchEvent(evt:Event, to:String="self", penetrate:Boolean=false):void {
+		if (to == DispatchTo.CHILDREN) {
+			dispatcher.dispatchEvent(new ContextEvent(ContextEvent.FROM_PARENT_CONTEXT, evt, penetrate));
+		} else if (to == DispatchTo.GLOBAL) {
+			globalDispatcher.dispatchEvent(new ContextEvent(ContextEvent.FROM_GLOBAL_CONTEXT, evt, penetrate));
+		} else if (to == DispatchTo.PARENT) {
 			if (parent) {
-				parent.eventEmitter.emitEvent(new ContextEvent(ContextEvent.FROM_CHILDREN_CONTEXT, evt, penetrate));
+				parent.dispatcher.dispatchEvent(new ContextEvent(ContextEvent.FROM_CHILDREN_CONTEXT, evt, penetrate));
 			}
-		} else if (to == EmitTo.SELF) {
-			eventEmitter.emitEvent(evt);
+		} else if (to == DispatchTo.SELF) {
+			dispatcher.dispatchEvent(evt);
 		} else {
-			throw new Error("unknown dispatch target :: " + to);
+			throw new Error("Unknown dispatch target :: " + to);
 		}
 	}
 }

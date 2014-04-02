@@ -1,13 +1,14 @@
 package ssen.mvc.impl.context {
 import flash.utils.Dictionary;
 
-import ssen.mvc.IEventUnit;
+import ssen.mvc.IEventListener;
 
+/** @private implements class */
 internal class EventCollection {
 	// types["change"][Function]=IEventUnit
 	private var types:Dictionary=new Dictionary;
 
-	public function add(type:String, listener:Function):IEventUnit {
+	public function add(type:String, listener:Function):IEventListener {
 		if (types[type] !== undefined && types[type][listener] !== undefined) {
 			return types[type][listener];
 		}
@@ -16,17 +17,21 @@ internal class EventCollection {
 			types[type]=new Dictionary;
 		}
 
-		var unit:EventUnit=new EventUnit;
-		unit._collection=this;
-		unit._listener=listener;
-		unit._type=type;
+		var eventListener:EventListener=new EventListener;
+		eventListener._collection=this;
+		eventListener._listener=listener;
+		eventListener._type=type;
 
-		types[type][listener]=unit;
+		types[type][listener]=eventListener;
 
-		return unit;
+		return eventListener;
 	}
 
 	public function remove(type:String, listener:Function):void {
+		if (!types) {
+			return;
+		}
+
 		if (types[type] !== undefined) {
 			if (types[type][listener]) {
 				delete types[type][listener];
@@ -34,18 +39,22 @@ internal class EventCollection {
 		}
 	}
 
-	public function get(type:String):Vector.<IEventUnit> {
-		var units:Vector.<IEventUnit>=new Vector.<IEventUnit>;
+	public function get(type:String):Vector.<IEventListener> {
+		if (!types) {
+			return null;
+		}
+
+		var eventListeners:Vector.<IEventListener>=new Vector.<IEventListener>;
 
 		if (types[type] !== undefined) {
 			var listeners:Dictionary=types[type];
 
-			for each (var unit:IEventUnit in listeners) {
-				units.push(unit);
+			for each (var eventListener:IEventListener in listeners) {
+				eventListeners.push(eventListener);
 			}
 		}
 
-		return units;
+		return eventListeners;
 	}
 
 	public function dispose():void {

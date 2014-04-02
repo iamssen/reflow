@@ -7,6 +7,7 @@ import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;
 
+/** @private implements class */
 internal class ContextMap {
 	//==========================================================================================
 	// singleton
@@ -27,7 +28,7 @@ internal class ContextMap {
 	private var contextKeys:Dictionary=new Dictionary;
 	private var contextViewKeys:Dictionary=new Dictionary;
 
-	public function register(context:Context):void {
+	public function register(context:Context, parentContext:Context=null):void {
 		if (contextKeys[context] !== undefined) {
 			throw new Error("!!!!");
 		}
@@ -36,6 +37,11 @@ internal class ContextMap {
 		var contextView:DisplayObject=context.contextView;
 
 		contextInfo.context=context;
+
+		if (parentContext) {
+			contextInfo.parentContext=parentContext;
+			contextInfo.parentContextDefined=true;
+		}
 
 		contextKeys[context]=contextInfo;
 		contextViewKeys[contextView]=contextInfo;
@@ -58,15 +64,19 @@ internal class ContextMap {
 	public function getParentContext(context:Context):Context {
 		if (contextKeys[context] !== undefined) {
 			var contextInfo:ContextInfo=contextKeys[context];
+			var parentContextInfo:ContextInfo;
 
 			if (!contextInfo.parentContextDefined) {
-				var container:DisplayObject=contextInfo.context.contextView;
+				var container:DisplayObject=contextInfo.context.contextView.parent;
 
 				while (!(container is Stage)) {
 					if (contextViewKeys[container] !== undefined) {
-						contextInfo.parentContext=contextViewKeys[container];
+						parentContextInfo=contextViewKeys[container];
+						contextInfo.parentContext=parentContextInfo.context;
 						break;
 					}
+
+					container=container.parent;
 				}
 
 				contextInfo.parentContextDefined=true;

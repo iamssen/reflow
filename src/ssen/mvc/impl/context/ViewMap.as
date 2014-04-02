@@ -1,17 +1,44 @@
 package ssen.mvc.impl.context {
+import flash.display.DisplayObject;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
+import ssen.mvc.IMediator;
 import ssen.mvc.IViewMap;
+import ssen.mvc.mvc_internal;
 
+use namespace mvc_internal;
+
+/** @private implements class */
 internal class ViewMap implements IViewMap {
-	// TODO 필수 injection
-	internal var context:Context;
+	//==========================================================================================
+	// properties
+	//==========================================================================================
+	//----------------------------------------------------------------
+	// dependent
+	//----------------------------------------------------------------
+	private var context:Context;
 
+	//----------------------------------------------------------------
+	// variables
+	//----------------------------------------------------------------
 	private var map:Dictionary;
 
 	//==========================================================================================
-	// implements
+	// life cycle
+	//==========================================================================================
+	public function setContext(hostContext:Context):void {
+		context=hostContext;
+		map=new Dictionary;
+	}
+
+	public function dispose():void {
+		context=null;
+		map=null;
+	}
+
+	//==========================================================================================
+	// implements IViewMap
 	//==========================================================================================
 	public function mapView(viewClass:Class, mediatorClass:Class=null, global:Boolean=false):void {
 		if (map[viewClass] !== undefined) {
@@ -32,7 +59,7 @@ internal class ViewMap implements IViewMap {
 		}
 	}
 
-	public function hasMapping(view:*):Boolean {
+	public function hasView(view:*):Boolean {
 		if (view is Class) {
 			return map[view] !== undefined;
 		}
@@ -40,47 +67,80 @@ internal class ViewMap implements IViewMap {
 		return map[view["constructor"]] !== undefined;
 	}
 
-
-
-
-
 	//==========================================================================================
-	// delete
+	// local api
 	//==========================================================================================
-	internal function injectInto(view:Object):void {
-		//		if (view is DisplayObject) {
-		//			if (map[view["constructor"]] === undefined) {
-		//				throw new Error("class is not inject target");
-		//			} else {
-		//				var info:ViewInfo=map[view["constructor"]];
-		//
-		//				if (info.mediatorType is Class) {
-		//					new MediatorController(injector, view as DisplayObject, info.mediatorType);
-		//				} else {
-		//					context.injector.injectInto(view);
-		//						//					injector.injectInto(view);
-		//				}
-		//			}
-		//		} else {
-		//			throw new Error("view is just DisplayObject");
-		//		}
+	public function injectInto(view:Object):void {
+		if (view is DisplayObject) {
+			if (map[view["constructor"]] === undefined) {
+				throw new Error(getQualifiedClassName(view) + " isn't View");
+			} else {
+				var viewInfo:ViewInfo=map[view["constructor"]];
+
+				if (viewInfo.mediatorType) {
+					var mediator:IMediator=new viewInfo.mediatorType;
+					var mediatorController:MediatorController=new MediatorController;
+
+					context._injector.injectInto(mediator);
+
+					mediatorController.view=view as DisplayObject;
+					mediatorController.mediator=mediator;
+					mediatorController.start();
+				} else {
+					context._injector.injectInto(view);
+				}
+			}
+		} else {
+			throw new Error(getQualifiedClassName(view) + " isn't DisplayObject");
+		}
 	}
 
-	internal function dispose():void {
-		//		map=null;
-		//		injector=null;
-	}
-
-
-	internal function isGlobal(view:*):Boolean {
+	public function isGlobal(view:*):Boolean {
 		var info:ViewInfo=(view is Class) ? map[view] : map[view["constructor"]];
 		return info.global;
 	}
 }
 }
+import flash.display.DisplayObject;
+import flash.events.Event;
+
+import ssen.mvc.IMediator;
 
 class ViewInfo {
 	public var type:Class;
 	public var mediatorType:Class;
 	public var global:Boolean;
+}
+
+class MediatorController {
+	public var view:DisplayObject;
+	public var mediator:IMediator;
+
+	public function start():void {
+		mediator.setView(view);
+
+		if (view.stage) {
+			mediator.onRegister();
+			view.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
+		} else {
+			view.addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		}
+	}
+
+	private function addedToStage(event:Event):void {
+		view.removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+
+		mediator.onRegister();
+
+		view.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
+	}
+
+	private function removedFromStage(event:Event):void {
+		view.removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
+
+		mediator.onRemove();
+
+		mediator=null;
+		view=null;
+	}
 }

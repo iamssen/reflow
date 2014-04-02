@@ -1,25 +1,26 @@
 package ssen.mvc.impl.context {
 import flash.events.Event;
 
-import ssen.mvc.IEventUnit;
+import ssen.mvc.IEventListener;
 
-internal class EventEmitter {
+/** @private implements class */
+internal class ContextEventDispatcher {
 	private var collection:EventCollection;
 
-	public function EventEmitter() {
+	public function ContextEventDispatcher() {
 		collection=new EventCollection;
 	}
 
-	public function addEventListener(type:String, listener:Function):IEventUnit {
+	public function addEventListener(type:String, listener:Function):IEventListener {
 		return collection.add(type, listener);
 	}
 
-	public function on(type:String, listener:Function):IEventUnit {
+	public function on(type:String, listener:Function):IEventListener {
 		return addEventListener(type, listener);
 	}
 
-	public function emitEvent(event:Event):void {
-		var units:Vector.<IEventUnit>=collection.get(event.type);
+	public function dispatchEvent(event:Event):void {
+		var units:Vector.<IEventListener>=collection.get(event.type);
 		var f:int=units.length;
 
 		if (f === 0) {

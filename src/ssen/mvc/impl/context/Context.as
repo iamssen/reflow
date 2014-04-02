@@ -35,11 +35,30 @@ public class Context implements IMXMLObject {
 	//---------------------------------------------
 	// parts
 	//---------------------------------------------
-	mvc_internal var eventBus:EventBus;
-	mvc_internal var commandMap:CommandMap;
-	mvc_internal var viewMap:ViewMap;
-	mvc_internal var injector:Injector;
+	mvc_internal var _eventBus:EventBus;
+	mvc_internal var _commandMap:CommandMap;
+	mvc_internal var _viewMap:ViewMap;
+	mvc_internal var _injector:Injector;
 	private var viewWatcher:ViewWatcher;
+
+	//==========================================================================================
+	// getters
+	//==========================================================================================
+	protected function get eventBus():IEventBus {
+		return _eventBus;
+	}
+
+	protected function get commandMap():ICommandMap {
+		return _commandMap;
+	}
+
+	protected function get viewMap():IViewMap {
+		return _viewMap;
+	}
+
+	protected function get injector():IInjector {
+		return _injector;
+	}
 
 	//==========================================================================================
 	// abstract functions
@@ -58,9 +77,11 @@ public class Context implements IMXMLObject {
 	//==========================================================================================
 	public function initialized(document:Object, id:String):void {
 		contextView=document as DisplayObject;
-		contextView.addEventListener(Event.ADDED, onAdded);
+		contextView.addEventListener(Event.ADDED, onAdded);		
+	}
 
-		ContextMap.getInstance().register(this);
+	mvc_internal function getParentContext():Context {
+		return null;
 	}
 
 	private function onAdded(event:Event):void {
@@ -69,8 +90,10 @@ public class Context implements IMXMLObject {
 		if (!stage) {
 			return;
 		}
-
+		
 		contextView.removeEventListener(Event.ADDED, onAdded);
+		
+		ContextMap.getInstance().register(this, getParentContext());
 
 		//----------------------------------------------------------------
 		// 05. create instances
@@ -78,32 +101,36 @@ public class Context implements IMXMLObject {
 		var parentContext:Context=ContextMap.getInstance().getParentContext(this);
 		var hasParent:Boolean=parentContext !== null;
 
-		eventBus=hasParent ? parentContext.eventBus.createChildEventBus() as EventBus : new EventBus;
-		injector=hasParent ? parentContext.injector.createChild() as Injector : new Injector;
-		commandMap=new CommandMap;
-		viewMap=new ViewMap;
+		_eventBus=hasParent ? parentContext._eventBus.createChildEventBus() as EventBus : new EventBus;
+		_injector=hasParent ? parentContext._injector.createChildInjector() as Injector : new Injector;
+		_commandMap=new CommandMap;
+		_viewMap=new ViewMap;
 		viewWatcher=new ViewWatcher;
 
 		// set dependent to instances
+		_eventBus.setContext(this);
+		_commandMap.setContext(this);
+		_viewMap.setContext(this);
 		viewWatcher.setContext(this);
 
 		//----------------------------------------------------------------
 		// 10. map dependencies
 		//----------------------------------------------------------------
 		// views
-		injector.mapValue(contextView["constructor"], contextView);
-		injector.mapValue(Stage, stage);
+		_injector.mapValue(contextView["constructor"], contextView);
+		_injector.mapValue(Stage, stage);
 
-		injector.mapValue(IEventBus, eventBus);
-		injector.mapValue(ICommandMap, commandMap);
-		injector.mapValue(IViewMap, viewMap);
-		injector.mapValue(IInjector, injector);
+		_injector.mapValue(IEventBus, _eventBus);
+		_injector.mapValue(ICommandMap, _commandMap);
+		_injector.mapValue(IViewMap, _viewMap);
+		_injector.mapValue(IInjector, _injector);
 
 		mapDependency();
 
 		//----------------------------------------------------------------
 		// 20. start watch
 		//----------------------------------------------------------------
+		_eventBus.start();
 		viewWatcher.start();
 
 		contextView.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -131,12 +158,24 @@ public class Context implements IMXMLObject {
 		//----------------------------------------------------------------
 		// 90. unwatch all watchable instances
 		//----------------------------------------------------------------
+		_eventBus.stop();
 		viewWatcher.stop();
+
+		//----------------------------------------------------------------
+		// 95. remove all instances
+		//----------------------------------------------------------------
+		_eventBus.dispose();
+		_commandMap.dispose();
+		_viewMap.dispose();
+		viewWatcher.dispose();
+
+		_eventBus=null;
+		_commandMap=null;
+		_viewMap=null;
+		viewWatcher=null;
 
 		ContextMap.getInstance().deregister(this);
 	}
-
-
 
 	//==========================================================================================
 	// utils

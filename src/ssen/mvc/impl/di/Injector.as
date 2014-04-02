@@ -12,7 +12,7 @@ public class Injector implements IInjector {
 	private var factoryMap:InstanceFactoryMap=new InstanceFactoryMap;
 	private var parent:Injector;
 
-	public function createChild():IInjector {
+	public function createChildInjector():IInjector {
 		var child:Injector=new Injector;
 		child.parent=this;
 		return child;
@@ -26,8 +26,11 @@ public class Injector implements IInjector {
 	// factories logic
 	//==========================================================================================
 	public function getInstance(asktype:Class):* {
+		return getInstanceByName(getQualifiedClassName(asktype));
+	}
+
+	mvc_internal function getInstanceByName(typeName:String):* {
 		var injector:Injector=this;
-		var typeName:String=getQualifiedClassName(asktype);
 
 		while (true) {
 			if (injector.factoryMap.has(typeName)) {
@@ -68,7 +71,16 @@ public class Injector implements IInjector {
 			typemap.map(obj);
 		}
 
-		typemap.injectInto(obj, factoryMap);
+		var injectionTargets:Vector.<InjectionTarget>=typemap.getInjectionTargets(obj);
+		var injectionTarget:InjectionTarget;
+
+		var f:int=-1;
+		var fmax:int=injectionTargets.length;
+
+		while (++f < fmax) {
+			injectionTarget=injectionTargets[f];
+			injectionTarget.mapping(obj, this);
+		}
 
 		return obj;
 	}
@@ -113,10 +125,6 @@ public class Injector implements IInjector {
 		factory.factoryType=factoryType;
 
 		factoryMap.set(getQualifiedClassName(askType), factory);
-	}
-
-	public function mapPath(askType:Class, host:Object, ... paths):void {
-
 	}
 
 	public function unmap(asktype:Class):void {

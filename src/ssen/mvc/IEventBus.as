@@ -5,13 +5,13 @@ public interface IEventBus {
 	//==========================================================================================
 	// listener
 	//==========================================================================================
-	function addEventListener(type:String, listener:Function):IEventUnit;
-	function on(type:String, listener:Function):IEventUnit;
+	function addEventListener(type:String, listener:Function):IEventListener;
+	function on(type:String, listener:Function):IEventListener;
 
 	//==========================================================================================
-	// emitter
+	// dispatcher
 	//==========================================================================================
-	function emitEvent(event:Event, to:String="self", penetrate:Boolean=false):void;
+	function dispatchEvent(event:Event, to:String="self", penetrate:Boolean=false):void;
 
 	//==========================================================================================
 	// tree

@@ -7,7 +7,7 @@ public interface ICommandChain {
 	function get current():int;
 	function get numCommands():int;
 
-	function get data():Object;
+	function get sharedData():Object;
 
 	function next():void;
 	function exit():void;

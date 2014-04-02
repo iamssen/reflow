@@ -104,23 +104,27 @@ internal class TypeMap {
 
 		types[typeName]=injectionTargets;
 	}
-
-	public function injectInto(instance:Object, factoryMap:InstanceFactoryMap):void {
-		var typeName:String=getQualifiedClassName(instance);
-		var injectionTargets:Vector.<InjectionTarget>=types[typeName];
-
-		if (!InjectionTarget) {
-			throw new Error("No have injection targets map of " + typeName);
-		}
-
-		var injectionTarget:InjectionTarget;
-
-		var f:int=-1;
-		var fmax:int=injectionTargets.length;
-
-		while (++f < fmax) {
-			injectionTargets[f].mapping(instance, factoryMap);
-		}
+	
+	public function getInjectionTargets(instance:Object):Vector.<InjectionTarget> {
+		return types[getQualifiedClassName(instance)];
 	}
+
+	//	public function injectInto(instance:Object, factoryMap:InstanceFactoryMap):void {
+	//		var typeName:String=getQualifiedClassName(instance);
+	//		var injectionTargets:Vector.<InjectionTarget>=types[typeName];
+	//
+	//		if (!injectionTargets) {
+	//			throw new Error("No have injection targets map of " + typeName);
+	//		}
+	//
+	//		var injectionTarget:InjectionTarget;
+	//
+	//		var f:int=-1;
+	//		var fmax:int=injectionTargets.length;
+	//
+	//		while (++f < fmax) {
+	//			injectionTargets[f].mapping(instance, factoryMap);
+	//		}
+	//	}
 }
 }

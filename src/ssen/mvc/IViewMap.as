@@ -5,10 +5,6 @@ public interface IViewMap {
 
 	function unmapView(viewClass:Class):void;
 
-	function hasMapping(view:*):Boolean;
-
-//	function injectInto(view:Object):void;
-
-//	function isGlobal(view:*):Boolean;
+	function hasView(view:*):Boolean;
 }
 }

@@ -1,13 +1,14 @@
 package ssen.mvc.impl.context {
 
-import ssen.mvc.IEventUnit;
+import ssen.mvc.IEventListener;
 
-internal class EventUnit implements IEventUnit {
+/** @private implements class */
+internal class EventListener implements IEventListener {
 	internal var _collection:EventCollection;
 	internal var _listener:Function;
 	internal var _type:String;
 
-	public function stop():void {
+	public function remove():void {
 		if (_collection) {
 			_collection.remove(_type, _listener);
 		}

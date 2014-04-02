@@ -2,86 +2,91 @@ package ssen.mvc.impl.context {
 import flash.events.Event;
 import flash.utils.Dictionary;
 
-import ssen.mvc.ICommand;
-import ssen.mvc.ICommandChain;
 import ssen.mvc.ICommandMap;
+import ssen.mvc.mvc_internal;
 
-// TODO EvtGatherer 의존 끊고, 최적화 시키기
+use namespace mvc_internal;
+
+/** @private implements class */
 internal class CommandMap implements ICommandMap {
-	internal var context:Context;
+	//==========================================================================================
+	// properties
+	//==========================================================================================
+	private var context:Context;
 
-	private var dic:Dictionary=new Dictionary;
-	//	private var injector:IInjector;
-	//	private var dispatcher:EventEmitter;
-	private var evtUnits:EvtGatherer=new EvtGatherer;
+	// dic["eventType"]=CommandInfo
+	private var commandInfos:Dictionary=new Dictionary;
 
-	//	public function CommandMap(dispatcher:IEventEmitter, injector:IInjector) {
-	//		this.dispatcher=dispatcher;
-	//		this.injector=injector;
-	//		dic=new Dictionary;
-	//		evtUnits=new EvtGatherer;
-	//	}
-
-	// dic["change"]=Vector.<Class.<ICommand>>
-	public function mapCommand(eventType:String, commandClasses:Vector.<Class>):void {
-		if (dic[eventType] !== undefined) {
-			throw new Error("");
-		}
-
-		dic[eventType]=commandClasses;
-//		evtUnits.add(context._eventBus .addEventListener(eventType, eventCatched));
+	public function CommandMap() {
+		commandInfos=new Dictionary;
 	}
 
-	private function eventCatched(event:Event):void {
-		var chain:ICommandChain=new EventChain(event, create(event.type));
-		chain.next();
-	}
-
-	public function unmapCommand(eventType:String):void {
-		if (dic[eventType] === undefined) {
-			throw new Error("undefined this command type");
-		}
-
-		evtUnits.remove(eventType);
-		delete dic[eventType];
-	}
-
-	public function hasMapping(eventType:String):Boolean {
-		return dic[eventType] !== undefined;
-	}
-
-	private function create(eventType:String):Vector.<ICommand> {
-		if (dic[eventType] === undefined) {
-			throw new Error("undefined command");
-		}
-
-		var commandClasses:Vector.<Class>=dic[eventType];
-		var commands:Vector.<ICommand>=new Vector.<ICommand>(commandClasses.length, true);
-		var cls:Class;
-
-		var f:int=commandClasses.length;
-		while (--f >= 0) {
-			cls=commandClasses[f];
-			commands[f]=new cls();
-//			injector.injectInto(commands[f]);
-		}
-
-		return commands;
+	//==========================================================================================
+	// life cycle
+	//==========================================================================================
+	public function setContext(hostContext:Context):void {
+		context=hostContext;
 	}
 
 	public function dispose():void {
-		dic=null;
+		context=null;
+	}
+
+	//==========================================================================================
+	// implements ICommandMap
+	//==========================================================================================
+	public function mapCommand(eventType:String, commandClasses:Vector.<Class>):void {
+		if (commandInfos[eventType] !== undefined) {
+			throw new Error("");
+		}
+
+		var commandInfo:CommandInfo=new CommandInfo;
+		commandInfo.eventType=eventType;
+		commandInfo.eventListener=context._eventBus.addEventListener(eventType, eventHandler);
+		commandInfo.commandClasses=commandClasses;
+
+		commandInfos[eventType]=commandInfo;
+	}
+
+	private function eventHandler(event:Event):void {
+		var commandInfo:CommandInfo=commandInfos[event.type];
+
+		if (commandInfo) {
+			new CommandChain(event, context._injector, commandInfo.commandClasses).next();
+		} else {
+			throw new Error("Undefined event type :: " + event.type);
+		}
+	}
+
+	public function unmapCommand(eventType:String):void {
+		if (commandInfos[eventType] === undefined) {
+			throw new Error("Undefined event type :: " + eventType);
+		}
+
+		var commandInfo:CommandInfo=commandInfos[eventType];
+		commandInfo.eventListener.remove();
+		delete commandInfos[eventType];
+	}
+
+	public function hasCommand(eventType:String):Boolean {
+		return commandInfos[eventType] !== undefined;
 	}
 }
 }
 import flash.utils.Dictionary;
 
-import ssen.mvc.IEventUnit;
+import ssen.mvc.IEventListener;
+
+class CommandInfo {
+	public var eventType:String;
+	public var eventListener:IEventListener;
+	public var commandClasses:Vector.<Class>;
+}
 
 class EvtGatherer {
 	private var map:Dictionary;
 
-	public function add(unit:IEventUnit):void {
+	public function add(unit:IEventListener):void {
 		if (map === null) {
 			map=new Dictionary;
 		}
@@ -95,8 +100,8 @@ class EvtGatherer {
 
 	public function remove(type:String):void {
 		if (map.has(type)) {
-			var unit:IEventUnit=map.get(type) as IEventUnit;
-			unit.stop();
+			var unit:IEventListener=map.get(type) as IEventListener;
+			unit.remove();
 			map.remove(type);
 		}
 	}

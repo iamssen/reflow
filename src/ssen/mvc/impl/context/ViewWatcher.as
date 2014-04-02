@@ -7,6 +7,7 @@ import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;
 
+/** @private implements class */
 internal class ViewWatcher {
 	//==========================================================================================
 	// properties
@@ -36,7 +37,7 @@ internal class ViewWatcher {
 		}
 
 		contextView.addEventListener(Event.ADDED, added, true);
-		contextView.stage.addEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
+		context.stage.addEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
 
 		started=true;
 	}
@@ -47,7 +48,7 @@ internal class ViewWatcher {
 		}
 
 		contextView.removeEventListener(Event.ADDED, added, true);
-		contextView.stage.removeEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
+		context.stage.removeEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
 
 		started=false;
 	}
@@ -63,17 +64,17 @@ internal class ViewWatcher {
 	private function addedOnGlobal(event:Event):void {
 		var view:DisplayObject=event.target as DisplayObject;
 
-		if (context.viewMap.hasMapping(view) && context.viewMap.isGlobal(view)) {
-			context.viewMap.injectInto(view);
+		if (context._viewMap.hasView(view) && context._viewMap.isGlobal(view)) {
+			context._viewMap.injectInto(view);
 		}
 	}
 
 	private function added(event:Event):void {
 		var view:DisplayObject=event.target as DisplayObject;
 
-		if (context.viewMap.hasMapping(view) && !context.viewMap.isGlobal(view)) {
+		if (context._viewMap.hasView(view) && !context._viewMap.isGlobal(view)) {
 			//			if (isContextChild(view)) {
-			context.viewMap.injectInto(view);
+			context._viewMap.injectInto(view);
 		}
 	}
 
