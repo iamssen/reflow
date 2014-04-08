@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.events.Event;
 
 import ssen.mvc.DispatchTo;
@@ -112,7 +112,7 @@ internal class EventBus implements IEventBus {
 		return new EventBus(this);
 	}
 
-	public function dispatchEvent(evt:Event, to:String="self", penetrate:Boolean=false):void {
+	public function dispatchEvent(evt:Event, to:String="current", penetrate:Boolean=false):void {
 		if (to == DispatchTo.CHILDREN) {
 			dispatcher.dispatchEvent(new ContextEvent(ContextEvent.FROM_PARENT_CONTEXT, evt, penetrate));
 		} else if (to == DispatchTo.GLOBAL) {
@@ -121,7 +121,7 @@ internal class EventBus implements IEventBus {
 			if (parent) {
 				parent.dispatcher.dispatchEvent(new ContextEvent(ContextEvent.FROM_CHILDREN_CONTEXT, evt, penetrate));
 			}
-		} else if (to == DispatchTo.SELF) {
+		} else if (to == DispatchTo.CURRENT) {
 			dispatcher.dispatchEvent(evt);
 		} else {
 			throw new Error("Unknown dispatch target :: " + to);

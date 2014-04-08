@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;

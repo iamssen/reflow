@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.events.Event;
 
 import ssen.mvc.IEventListener;

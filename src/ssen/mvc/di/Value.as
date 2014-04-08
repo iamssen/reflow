@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 
 /** @private implements class */
 internal class Value implements InstanceFactory {

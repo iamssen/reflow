@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.display.DisplayObject;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -121,7 +121,7 @@ class MediatorController {
 		mediator.setView(view);
 
 		if (view.stage) {
-			mediator.onRegister();
+			mediator.startup();
 			view.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
 		} else {
 			view.addEventListener(Event.ADDED_TO_STAGE, addedToStage);
@@ -131,7 +131,7 @@ class MediatorController {
 	private function addedToStage(event:Event):void {
 		view.removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 
-		mediator.onRegister();
+		mediator.startup();
 
 		view.addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
 	}
@@ -139,7 +139,7 @@ class MediatorController {
 	private function removedFromStage(event:Event):void {
 		view.removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStage);
 
-		mediator.onRemove();
+		mediator.shutdown();
 
 		mediator=null;
 		view=null;

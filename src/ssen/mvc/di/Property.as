@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 import ssen.mvc.mvc_internal;
 
 use namespace mvc_internal;

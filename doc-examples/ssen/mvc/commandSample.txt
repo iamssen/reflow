@@ -1,0 +1,38 @@
+class SampleCommand implements ICommand {
+
+	// auto dependency injection by context
+	[Inject]
+	public var model:Model;
+	
+	[Inject]
+	public var eventBus:IEventBus;
+	
+	// auto execute by context
+	public function execute(chain:ICommandChain):void {
+		
+		// get trigger event
+		var event:CRUDEvent = chain.event;
+		
+		// responder functions
+		var result:Function = function():void {
+			chain.next(); // success to execute next command
+		};
+		
+		var fault:Function = function():void {
+			chain.exit(); // failed to exit process
+		};
+		
+		// execute
+		switch (event.type) {
+			case "create" : 
+				model.create(event.data, result, fault);
+				break;
+			case "update" :
+				model.update(event.index, event.data, result, fault);
+				break;
+			case "delete" :
+				model.delete(event.index, result, fault);
+				break;
+		}
+	}
+}

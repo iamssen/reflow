@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.display.DisplayObject;
 import flash.display.Stage;
 import flash.events.Event;
@@ -11,7 +11,7 @@ import ssen.mvc.IEventBus;
 import ssen.mvc.IInjector;
 import ssen.mvc.IViewMap;
 import ssen.mvc.mvc_internal;
-import ssen.mvc.impl.di.Injector;
+import ssen.mvc.di.Injector;
 
 use namespace mvc_internal;
 

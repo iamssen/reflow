@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 import flash.utils.getQualifiedClassName;
 
 import ssen.mvc.IInjector;
@@ -37,12 +37,12 @@ public class Injector implements IInjector {
 	// factories logic
 	//==========================================================================================
 	/** @inheritDoc */
-	public function getInstance(asktype:Class):* {
-		return getInstanceByName(getQualifiedClassName(asktype));
+	public function getInstance(Type:Class):Object {
+		return getInstanceByName(getQualifiedClassName(Type));
 	}
 
 	/** @private */
-	mvc_internal function getInstanceByName(typeName:String):* {
+	mvc_internal function getInstanceByName(typeName:String):Object {
 		var injector:Injector=this;
 
 		while (true) {
@@ -60,9 +60,9 @@ public class Injector implements IInjector {
 	}
 
 	/** @inheritDoc */
-	public function hasMapping(asktype:Class):Boolean {
+	public function hasMapping(Type:Class):Boolean {
 		var injector:Injector=this;
-		var typeName:String=getQualifiedClassName(asktype);
+		var typeName:String=getQualifiedClassName(Type);
 
 		while (true) {
 			if (injector.factoryMap.has(typeName)) {
@@ -79,13 +79,14 @@ public class Injector implements IInjector {
 	}
 
 	/** @inheritDoc */
-	public function injectInto(obj:Object):Object {
+	public function injectInto(obj:Object):void {
 		var typeName:String=getQualifiedClassName(obj);
 
 		if (!typemap.has(typeName)) {
 			typemap.map(obj);
 		}
 
+		// inject dependent
 		var injectionTargets:Vector.<InjectionTarget>=typemap.getInjectionTargets(obj);
 		var injectionTarget:InjectionTarget;
 
@@ -97,58 +98,63 @@ public class Injector implements IInjector {
 			injectionTarget.mapping(obj, this);
 		}
 
-		return obj;
+		// execute post constructor
+		var postConstructor:String=typemap.getPostConstructor(obj);
+
+		if (postConstructor) {
+			obj[postConstructor]();
+		}
 	}
 
 	//==========================================================================================
 	// map, unmap
 	//==========================================================================================
 	/** @inheritDoc */
-	public function mapClass(asktype:Class, usetype:Class=null):void {
-		if (!usetype) {
-			usetype=asktype;
+	public function mapClass(Type:Class, Implementation:Class=null):void {
+		if (!Implementation) {
+			Implementation=Type;
 		}
 
 		var instantiate:Instantiate=new Instantiate;
 		instantiate.injector=this;
-		instantiate.type=usetype;
+		instantiate.type=Implementation;
 
-		factoryMap.set(getQualifiedClassName(asktype), instantiate);
+		factoryMap.set(getQualifiedClassName(Type), instantiate);
 	}
 
 	/** @inheritDoc */
-	public function mapSingleton(asktype:Class, usetype:Class=null):void {
-		if (!usetype) {
-			usetype=asktype;
+	public function mapSingleton(Type:Class, Implementation:Class=null):void {
+		if (!Implementation) {
+			Implementation=Type;
 		}
 
 		var singleton:Singleton=new Singleton;
 		singleton.injector=this;
-		singleton.type=usetype;
+		singleton.type=Implementation;
 
-		factoryMap.set(getQualifiedClassName(asktype), singleton);
+		factoryMap.set(getQualifiedClassName(Type), singleton);
 	}
 
 	/** @inheritDoc */
-	public function mapValue(asktype:Class, usevalue:Object):void {
+	public function mapValue(Type:Class, usingValue:Object):void {
 		var value:Value=new Value;
-		value.instance=usevalue;
+		value.instance=usingValue;
 
-		factoryMap.set(getQualifiedClassName(asktype), value);
+		factoryMap.set(getQualifiedClassName(Type), value);
 	}
 
 	/** @inheritDoc */
-	public function mapFactory(askType:Class, factoryType:Class):void {
+	public function mapFactory(Type:Class, FactoryType:Class):void {
 		var factory:Factory=new Factory;
 		factory.injector=this;
-		factory.factoryType=factoryType;
+		factory.factoryType=FactoryType;
 
-		factoryMap.set(getQualifiedClassName(askType), factory);
+		factoryMap.set(getQualifiedClassName(Type), factory);
 	}
 
 	/** @inheritDoc */
-	public function unmap(asktype:Class):void {
-		factoryMap.unset(getQualifiedClassName(asktype));
+	public function unmap(Type:Class):void {
+		factoryMap.unset(getQualifiedClassName(Type));
 	}
 
 	//==========================================================================================

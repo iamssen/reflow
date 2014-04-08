@@ -1,9 +1,19 @@
 package ssen.mvc {
+import flash.display.DisplayObject;
 
+/**
+ * Implements this interface when make View Mediator
+ *
+ * @see IViewMap#mapView()@
+ */
 public interface IMediator {
-	// TODO display 전용 변경 고려
-	function setView(value:Object):void;
-	function onRegister():void;
-	function onRemove():void;
+	/** Automatically set view display object by Context */
+	function setView(value:DisplayObject):void;
+
+	/** Automatically execute at added to stage display by Context */
+	function startup():void;
+
+	/** Automatically execute at removed from stage display by Context */
+	function shutdown():void;
 }
 }

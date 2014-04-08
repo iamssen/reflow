@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
 
@@ -6,6 +6,9 @@ import flash.utils.getQualifiedClassName;
 internal class TypeMap {
 	// [name.space::Class] = Vector.<InjectionTarget>
 	private var types:Object={};
+
+	// [name.space::Class] = "methodName" 
+	private var havePostConstructor:Object={};
 
 	public function has(source:*):Boolean {
 		var typeName:String=(source is String) ? source : getQualifiedClassName(source);
@@ -103,10 +106,28 @@ internal class TypeMap {
 		}
 
 		types[typeName]=injectionTargets;
+
+
+		//----------------------------------------------------------------
+		// check post constructor
+		//----------------------------------------------------------------
+		var postConstructList:XMLList=spec..metadata.(@name == "PostConstruct");
+
+		if (postConstructList.length() > 0) {
+			member=postConstructList[0].parent();
+
+			if (member.name() == "method") {
+				havePostConstructor[typeName]=member.@name.toString();
+			}
+		}
 	}
 
 	public function getInjectionTargets(instance:Object):Vector.<InjectionTarget> {
 		return types[getQualifiedClassName(instance)];
+	}
+
+	public function getPostConstructor(instance:Object):String {
+		return havePostConstructor[getQualifiedClassName(instance)];
 	}
 
 	//	public function injectInto(instance:Object, factoryMap:InstanceFactoryMap):void {

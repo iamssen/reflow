@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 
 /** @private implements class */
 internal class Instantiate implements InstanceFactory {
@@ -6,7 +6,11 @@ internal class Instantiate implements InstanceFactory {
 	public var type:Class;
 
 	public function getInstance():Object {
-		return injector.injectInto(new type);
+		var instance:Object=new type;
+
+		injector.injectInto(instance);
+
+		return instance;
 	}
 }
 }

@@ -5,4 +5,7 @@
 		<context name="setter" />
 		<context name="method" />
 	</metadata>
+	<metadata name="PostConstruct" description="Automatically execute after dependency injection">
+		<context name="method" />
+	</metadata>
 </annotations>

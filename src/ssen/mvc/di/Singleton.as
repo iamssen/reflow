@@ -1,4 +1,4 @@
-package ssen.mvc.impl.di {
+package ssen.mvc.di {
 
 /** @private implements class */
 internal class Singleton implements InstanceFactory {
@@ -9,7 +9,8 @@ internal class Singleton implements InstanceFactory {
 
 	public function getInstance():Object {
 		if (!instance) {
-			instance=injector.injectInto(new type);
+			instance=new type;
+			injector.injectInto(instance);
 		}
 		return instance;
 	}

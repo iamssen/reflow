@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.utils.Dictionary;
 
 import ssen.mvc.IEventListener;

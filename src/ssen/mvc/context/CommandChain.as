@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.events.Event;
 
 import ssen.mvc.ICommand;
@@ -13,15 +13,20 @@ internal class CommandChain implements ICommandChain {
 	//----------------------------------------------------------------
 	// dependent
 	//----------------------------------------------------------------
-	private var _event:Event;
-	private var _commandClasses:Vector.<Class>;
 	private var _injector:IInjector;
 
 	//----------------------------------------------------------------
 	// variables
 	//----------------------------------------------------------------
+	// trigger event
+	private var _event:Event;
+
+	// chain step
+	private var _commandClasses:Vector.<Class>;
 	private var _current:int=-1;
-	private var _data:Object;
+
+	// shared data in chain
+	private var _sharedData:Object;
 
 	//==========================================================================================
 	// constructor
@@ -36,7 +41,7 @@ internal class CommandChain implements ICommandChain {
 	// implements IEventChain
 	//==========================================================================================
 	public function get sharedData():Object {
-		return _data||={};
+		return _sharedData||={};
 	}
 
 	public function get event():Event {

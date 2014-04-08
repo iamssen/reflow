@@ -1,4 +1,4 @@
-package ssen.mvc.impl.context {
+package ssen.mvc.context {
 import flash.display.DisplayObject;
 import flash.display.Stage;
 import flash.utils.Dictionary;
@@ -106,7 +106,7 @@ internal class ContextMap {
 	}
 }
 }
-import ssen.mvc.impl.context.Context;
+import ssen.mvc.context.Context;
 
 class ContextInfo {
 	public var context:Context;
