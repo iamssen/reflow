@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="SSen MVC" basedir=".">
+<project name="Reflow Build" basedir=".">
 	<property name="FLEX_HOME" value="${user.home}/Settings/flex-sdks/4.11.0" />
-	<property name="OUTPUT" value="docs" />
+	<property name="OUTPUT" value="pages" />
 	<property name="SOURCE" value="src" />
 	<property name="LIBRARY" value="libs" />
-	<property name="EXAMPLES" value="doc-examples" />
+	<property name="EXAMPLES" value="asdoc-examples" />
 
 	<target name="doc" depends="doc-clean">
 		<exec executable="${FLEX_HOME}/bin/asdoc">
@@ -19,8 +19,8 @@
 			<arg line='-library-path ${FLEX_HOME}/frameworks/libs/player' />
 			<!--<arg line='-library-path ${LIBRARY}' />-->
 
-			<arg line='-window-title "SSen MVC Framework API Documents"' />
-			<arg line='-main-title "SSen MVC Framework API Documents"' />
+			<arg line='-window-title "Reflow Framework API Documents"' />
+			<arg line='-main-title "Reflow Framework API Documents"' />
 
 			<arg line='-left-frameset-width 170' />
 
@@ -30,7 +30,7 @@
 
 	<target name="doc-clean">
 		<delete includeEmptyDirs="true" failonerror="false">
-			<fileset dir="${OUTPUT}" includes="**/*" />
+			<fileset dir="${OUTPUT}" includes="**/*" excludes=".git" />
 		</delete>
 	</target>
 

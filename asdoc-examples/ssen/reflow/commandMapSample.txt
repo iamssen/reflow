@@ -1,0 +1,27 @@
+/// Map command on `Context.mapDependency()`
+override protected function mapDependency():void {
+	// 1 : map(eventType, commandClasses)
+	commandMap.map(UserEvent.SUBMIT, new <Class>[SaveData, RefreshData]);
+	commandMap.map(UserEvent.REFRESH, new <Class>[RefreshData]);
+}
+
+
+/// Execute commands on anywhere (ex. View)
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+			[Inject]
+			public var eventBus:IEventBus;
+			
+			private function clickSubmit(event:MouseEvent):void {
+				// 2 : submit trigger event 
+				var event:UserEvent=new UserEvent(UserEvent.SUBMIT);
+				eventBus.dispatchEvent(event);
+				
+				// 3 : execute commands SaveData and RefreshData
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Button label="Submit" click="clickSubmit(event)" />
+</s:Group>
