@@ -6,10 +6,10 @@ package ssen.reflow {
  * @see IBackgroundProcessMap#map()
  */
 public interface IBackgroundProcess {
-	/** <code>BackgroundProcess</code> 시작 함수 */
+	/** [Hook] <code>BackgroundProcess</code> 시작 할 때 */
 	function start():void;
 
-	/** <code>BackgroundProcess</code> 종료 함수 */
+	/** [Hook] <code>BackgroundProcess</code> 종료 할 때 */
 	function stop():void;
 }
 }

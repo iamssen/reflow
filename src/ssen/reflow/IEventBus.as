@@ -41,7 +41,10 @@ public interface IEventBus {
 	//----------------------------------------------------------------
 	// tree
 	//----------------------------------------------------------------
+	/** @private */
 	function get parentEventBus():IEventBus;
+	
+	/** @private */
 	function createChildEventBus():IEventBus;
 }
 }

@@ -9,7 +9,7 @@ package ssen.reflow {
  */
 public interface ICommand {
 	/**
-	 * <code>Command</code>의 실행 함수
+	 * [Hook] <code>Command</code>의 실행 함수.
 	 *
 	 * <p><b>주의</b>: <code>Command</code>의 실행 종료 시점에 반드시 
 	 * <code>chain.next()</code> 또는 <code>chain.exit()</code>를 호출해줘야 한다.</p>

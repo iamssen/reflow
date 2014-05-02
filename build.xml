@@ -4,7 +4,7 @@
 	<property name="OUTPUT" value="pages" />
 	<property name="SOURCE" value="src" />
 	<property name="LIBRARY" value="libs" />
-	<property name="EXAMPLES" value="asdoc-examples" />
+	<property name="EXAMPLES" value="examples" />
 
 	<target name="doc" depends="doc-clean">
 		<exec executable="${FLEX_HOME}/bin/asdoc">
@@ -35,6 +35,6 @@
 	</target>
 
 	<target name="test">
-		<echo message="${user.home}"/>
+		<echo message="${user.home}" />
 	</target>
 </project>

@@ -21,7 +21,7 @@ public class Injector implements IInjector {
 	//==========================================================================================
 	// tree api
 	//==========================================================================================
-	/** @inheritDoc */
+	/** @private */
 	public function createChildInjector():IInjector {
 		var child:Injector=new Injector;
 		child.parent=this;
