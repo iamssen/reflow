@@ -1,0 +1,7 @@
+[submodule "wiki"]
+	path = wiki
+url=git@github.com:iamssen/reflow.wiki.git
+[submodule "pages"]
+	path = pages
+url=git@github.com:iamssen/reflow.git
+	branch = gh-pages

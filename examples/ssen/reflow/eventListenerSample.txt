@@ -1,0 +1,7 @@
+var dataUpdate:IEventListener;
+
+// Add event listener	
+dataUpdate = eventBus.addEventListener(DataEvent.UPDATE, dataUpdateHandler);
+
+// Remove event listener
+dataUpdate.remove();

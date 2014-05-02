@@ -1,9 +1,11 @@
-bin/
-bin-debug/
-bin-release/
+bin
+bin-debug
+bin-release
+docs
 
-.settings/
+.settings
 
 .actionScriptProperties
 .flexLibProperties
 .project
+
