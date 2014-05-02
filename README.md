@@ -10,7 +10,7 @@
 
 # Link
 
-- [Download](https://github.com/iamssen/ssenkit.mvc/releases)
+- [Download](https://github.com/iamssen/reflow/releases)
 - [API Documents](https://iamssen.github.io/reflow)
 - [Wiki](https://github.com/iamssen/reflow/wiki)
 
