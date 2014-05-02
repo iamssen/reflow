@@ -1,0 +1,7 @@
+[submodule "wiki"]
+	path = wiki
+	url = git@github.com:iamssen/ssenkit.mvc.wiki.git
+[submodule "pages"]
+	path = pages
+	url = git@github.com:iamssen/ssenkit.mvc.git
+	branch = gh-pages
