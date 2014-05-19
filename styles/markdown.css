@@ -23,3 +23,12 @@
 	word-break: keep-all;
 	white-space: nowrap;
 }
+
+/** custom */
+.center {
+	text-align: center;
+}
+
+.center > embed {
+	border: 1px solid #000000;
+}
