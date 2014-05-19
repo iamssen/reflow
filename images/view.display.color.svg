@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="217px" height="217px" viewBox="0 0 217 217" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>view.display.color</title>
+    <description>Created with Sketch.</description>
+    <defs></defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="view.display.color" sketch:type="MSLayerGroup">
+            <path d="M108.5,217 C168.422895,217 217,168.422895 217,108.5 C217,48.5771046 168.422895,0 108.5,0 C48.5771046,0 0,48.5771046 0,108.5 C0,168.422895 48.5771046,217 108.5,217 Z" id="Oval-27" stroke="#315B93" stroke-width="10" fill="#EDEDED" sketch:type="MSShapeGroup"></path>
+            <g id="Group-+-Group" transform="translate(43.000000, 45.000000)" sketch:type="MSShapeGroup">
+                <g id="Group" transform="translate(0.000000, 80.000000)" fill="#9E9E9E">
+                    <rect id="Rectangle-103" x="0" y="0" width="62" height="4"></rect>
+                    <rect id="Rectangle-120" x="67" y="0" width="65" height="4"></rect>
+                    <rect id="Rectangle-109" x="0" y="11" width="39" height="4"></rect>
+                    <rect id="Rectangle-121" x="44" y="11" width="25" height="4"></rect>
+                    <rect id="Rectangle-122" x="74" y="11" width="44" height="4"></rect>
+                    <rect id="Rectangle-110" x="0" y="22" width="20" height="4"></rect>
+                    <rect id="Rectangle-123" x="25" y="22" width="35" height="4"></rect>
+                    <rect id="Rectangle-124" x="65" y="22" width="12" height="4"></rect>
+                    <rect id="Rectangle-125" x="82" y="22" width="50" height="4"></rect>
+                    <rect id="Rectangle-111" x="0" y="33" width="52" height="4"></rect>
+                    <rect id="Rectangle-126" x="57" y="33" width="36" height="4"></rect>
+                    <rect id="Rectangle-127" x="98" y="33" width="34" height="4"></rect>
+                    <rect id="Rectangle-114" x="0" y="44" width="46" height="4"></rect>
+                    <rect id="Rectangle-128" x="51" y="44" width="35" height="4"></rect>
+                    <rect id="Rectangle-129" x="91" y="44" width="41" height="4"></rect>
+                </g>
+                <g id="Group">
+                    <rect id="Rectangle-102" fill="#8BE8FC" x="0" y="0" width="132" height="73"></rect>
+                    <path d="M0,73 L132,73 L132,35.3055556 L117.236842,14 L86.5748988,58.25 L70.3421053,34.8235294 L52.7064777,60.2745098 L26.0526316,21.8088235 L0,59.4068627 L0,73 Z" id="Rectangle-113" fill="#46808D"></path>
+                    <circle id="Oval-39" fill="#FFF465" cx="90" cy="20" r="8"></circle>
+                </g>
+            </g>
+            <path d="M153.437179,185.839403 C173.437788,166.157901 185.839403,138.777227 185.839403,108.5 C185.839403,48.5771046 137.262298,0 77.3394026,0 C47.062176,0 19.6815016,12.4016146 0,32.4022234 L153.437179,185.839403 L153.437179,185.839403 Z" id="Oval-17" fill-opacity="0.157410553" fill="#FFFFFF" sketch:type="MSShapeGroup" transform="translate(93.000000, 93.000000) rotate(-90.000000) translate(-93.000000, -93.000000) "></path>
+        </g>
+    </g>
+</svg>

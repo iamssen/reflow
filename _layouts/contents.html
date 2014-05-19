@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{page.title}}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css">
+	<link rel="stylesheet" type="text/css" href="/styles/main.css">
+
+	<style type="text/css">
+		/** layout */
+		html, body {
+			margin: 0;
+			padding: 10px;
+		}
+
+		#container {
+			width: 80%;
+			margin: auto;
+			text-align: center;
+		}
+
+		#container #contents {
+			margin: auto;
+			text-align: left;
+			max-width: 630px;
+			min-width: 500px;
+		}
+
+		#container #footer {
+			margin: auto;
+			text-align: left;
+			max-width: 630px;
+			min-width: 500px;
+		}
+
+		/** custom */
+		.center {
+			text-align: center;
+		}
+
+		.center > embed {
+			border: 1px solid #000000;
+		}
+	</style>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+	<script src="/scripts/init.js"></script>
+</head>
+<body>
+
+<div id="container">
+	<div>
+		<a href="/" target="_blank">
+			<img src="/images/logo.svg"/>
+		</a>
+	</div>
+
+	<div id="contents" style="margin-top: 23px;">
+		{{content}}
+	</div>
+
+	<div id="footer">
+		<ul class="posts">
+			{% for post in site.posts %}
+			<li>
+				<a class="post-link" href="{{ post.url }}">{{post.title }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+
+		<p><a href="/asdoc/">API Documents</a></p>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="217px" height="217px" viewBox="0 0 217 217" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>eventbus.color</title>
+    <description>Created with Sketch.</description>
+    <defs>
+        <linearGradient x1="94.2908168%" y1="26.2328961%" x2="94.2908168%" y2="93.1213213%" id="linearGradient-1">
+            <stop stop-color="#DFDFDF" offset="0%"></stop>
+            <stop stop-color="#E2E2E2" offset="14.453125%"></stop>
+            <stop stop-color="#C0C0C0" offset="38.5861767%"></stop>
+            <stop stop-color="#E2E2E2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.999997%" y1="37.4993844%" x2="49.999997%" y2="109.221004%" id="linearGradient-2">
+            <stop stop-color="#FF2929" offset="0.0577965561%"></stop>
+            <stop stop-color="#E41E1E" offset="21.4940972%"></stop>
+            <stop stop-color="#FF2929" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-3" x="1.87096774" y="0.937823834" width="48.6451613" height="76.9015544" rx="3"></rect>
+    </defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="eventbus.color" sketch:type="MSLayerGroup">
+            <path d="M108.5,217 C168.422895,217 217,168.422895 217,108.5 C217,48.5771046 168.422895,0 108.5,0 C48.5771046,0 0,48.5771046 0,108.5 C0,168.422895 48.5771046,217 108.5,217 Z" id="Oval-10" fill="#4B5B73" sketch:type="MSShapeGroup"></path>
+            <path d="M179.664636,193.734525 L86.0967742,145.09333 L86.0967742,145.09333 L86.0967742,149.17788 C86.0967742,151.248068 84.4193969,152.933333 82.3502471,152.933333 L37.4562045,152.933333 C35.3933566,152.933333 33.7096774,151.251959 33.7096774,149.17788 L33.7096774,144.483333 L21.5393515,144.483333 C17.936234,144.483333 15,141.540567 15,137.91048 L15,89.0895199 C15,85.4637603 17.9277674,82.5166667 21.5393515,82.5166667 L33.7096774,82.5166667 L33.7096774,76.8832314 C33.7096774,74.8130434 35.3870547,73.1277778 37.4562045,73.1277778 L82.3502471,73.1277778 C84.413095,73.1277778 86.0967742,74.8091516 86.0967742,76.8832314 L86.0967742,82.8455589 L179.645161,34.2144877 L179.645161,33.6964135 C179.645161,31.1061938 181.739313,29 184.322581,29 C186.900592,29 189,31.1026559 189,33.6964135 L189,193.303587 C189,195.893806 186.905848,198 184.322581,198 C181.888969,198 179.881847,196.126295 179.664636,193.734525 L179.664636,193.734525 L179.664636,193.734525 Z" id="Path" fill-opacity="0.216655344" fill="#161546" sketch:type="MSShapeGroup"></path>
+            <g id="event-bus-2" transform="translate(10.000000, 24.000000)">
+                <path d="M167.451613,165.994819 L11.2258065,84.873057 L167.451613,3.75129534 L167.451613,165.994819 L167.451613,165.994819 Z" id="Rectangle-39" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup"></path>
+                <g id="Group" transform="translate(0.000000, 53.455959)" sketch:type="MSShapeGroup">
+                    <rect id="Rectangle-38" fill="#FF2929" x="0" y="0" width="37.4193548" height="61.8963731" rx="7"></rect>
+                    <path d="M1.87096774,55.1047685 C1.87096774,57.8197765 4.06651603,60.0207254 6.78904768,60.0207254 L21.516129,60.0207254 L21.516129,0 L11.0062555,4.16477446e-16 L11.0062555,32.4702285 L1.87096774,32.4702285 L1.87096774,55.1047685 Z" id="Rectangle-50" fill="#E41E1E"></path>
+                    <path d="M0,28.134715 L0,31.8860104 L15.9032258,31.8860104 L15.9032258,28.134715 L0,28.134715 Z M0,21.5699482 L0,25.3212435 L15.9032258,25.3212435 L15.9032258,21.5699482 L0,21.5699482 Z M0,14.0673575 L0,17.8186528 L15.9032258,17.8186528 L15.9032258,14.0673575 L0,14.0673575 Z M0,7.50259067 L0,11.253886 L15.9032258,11.253886 L15.9032258,7.50259067 L0,7.50259067 Z M0,34.6994819 L0,38.4507772 L15.9032258,38.4507772 L15.9032258,34.6994819 L0,34.6994819 Z M0,42.2020725 L0,45.9533679 L15.9032258,45.9533679 L15.9032258,42.2020725 L0,42.2020725 Z M0,48.7668394 L0,52.5181347 L15.9032258,52.5181347 L15.9032258,48.7668394 L0,48.7668394 Z" id="Rectangle-48" fill="#AC4C4C"></path>
+                    <rect id="Rectangle-41" fill="#942929" x="0" y="8.44041451" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-42" fill="#942929" x="0" y="15.9430052" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-43" fill="#942929" x="0" y="22.507772" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-44" fill="#942929" x="0" y="29.0725389" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-45" fill="#942929" x="0" y="36.5751295" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-46" fill="#942929" x="0" y="43.1398964" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-47" fill="#942929" x="0" y="49.7046632" width="14.9677419" height="2.8134715"></rect>
+                </g>
+                <g id="Rectangle-37-+-Rectangle-49" transform="translate(18.709677, 44.077720)">
+                    <rect id="Rectangle-37" fill="#FF2929" sketch:type="MSShapeGroup" x="0" y="0" width="52.3870968" height="79.7150259" rx="4"></rect>
+                    <g id="Rectangle-49">
+                        <use fill="none" sketch:type="MSShapeGroup" xlink:href="#path-3"></use>
+                        <use fill="url(#linearGradient-2)" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    </g>
+                </g>
+                <rect id="Rectangle-55" stroke="#8F8F8F" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup" x="164.645161" y="0" width="9.35483871" height="168.80829" rx="8"></rect>
+                <rect id="Rectangle-56" fill-opacity="0.700832201" fill="#FFFFFF" sketch:type="MSShapeGroup" x="166.516129" y="2.8134715" width="1.87096774" height="156.61658" rx="8"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

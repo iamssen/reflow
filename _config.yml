@@ -1,0 +1,6 @@
+markdown: kramdown
+permalink: /:title
+
+kramdown:
+     input: GFM
+

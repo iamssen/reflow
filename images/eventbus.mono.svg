@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="219px" height="219px" viewBox="0 0 219 219" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>eventbus.mono</title>
+    <description>Created with Sketch.</description>
+    <defs>
+        <linearGradient x1="94.2908168%" y1="27.4153346%" x2="94.2908168%" y2="93.1213213%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="13.9508929%"></stop>
+            <stop stop-color="#EBEBEB" offset="37.5577966%"></stop>
+            <stop stop-color="#F3F3F3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.999997%" y1="37.5822657%" x2="49.999997%" y2="109.221004%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#E4E4E4" offset="20.9343112%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-3" x="0" y="0" width="37.4193548" height="61.8963731" rx="7"></rect>
+        <rect id="path-4" x="1.87096774" y="0.937823834" width="48.6451613" height="76.9015544" rx="3"></rect>
+        <linearGradient x1="94.2908168%" y1="26.6141558%" x2="94.2908168%" y2="93.1213213%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#F4F4F4" offset="14.453125%"></stop>
+            <stop stop-color="#DADADA" offset="38.026148%"></stop>
+            <stop stop-color="#F2F2F2" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="eventbus.mono" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)">
+            <path d="M108.5,217 C168.422895,217 217,168.422895 217,108.5 C217,48.5771046 168.422895,0 108.5,0 C48.5771046,0 0,48.5771046 0,108.5 C0,168.422895 48.5771046,217 108.5,217 Z" id="Oval-10" stroke="#979797" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            <g id="event-bus-2" transform="translate(10.000000, 24.000000)">
+                <path d="M167.451613,165.994819 L11.2258065,84.873057 L167.451613,3.75129534 L167.451613,165.994819 L167.451613,165.994819 Z" id="Rectangle-39" stroke="#8D8D8D" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup"></path>
+                <g id="Group" transform="translate(0.000000, 53.455959)">
+                    <g id="Rectangle-38">
+                        <use stroke="#8D8D8D" stroke-width="1" fill="none" sketch:type="MSShapeGroup" xlink:href="#path-3"></use>
+                        <use stroke="none" fill="url(#linearGradient-2)" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    </g>
+                    <rect id="Rectangle-41" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="8.44041451" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-42" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="15.9430052" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-43" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="22.507772" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-44" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="29.0725389" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-45" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="36.5751295" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Rectangle-47" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="49.7046632" width="14.9677419" height="2.8134715"></rect>
+                    <rect id="Path" fill="#8D8D8D" sketch:type="MSShapeGroup" x="0" y="42.7046632" width="15" height="3"></rect>
+                </g>
+                <g id="Rectangle-37-+-Rectangle-49" transform="translate(18.709677, 44.077720)">
+                    <rect id="Rectangle-37" stroke="#8D8D8D" fill="#FFFFFF" sketch:type="MSShapeGroup" x="0" y="0" width="52.3870968" height="79.7150259" rx="4"></rect>
+                    <g id="Rectangle-49">
+                        <use fill="none" sketch:type="MSShapeGroup" xlink:href="#path-4"></use>
+                        <use fill="url(#linearGradient-2)" fill-rule="evenodd" xlink:href="#path-4"></use>
+                    </g>
+                </g>
+                <rect id="Rectangle-55" stroke="#8D8D8D" fill="url(#linearGradient-5)" sketch:type="MSShapeGroup" x="164.645161" y="0" width="9.35483871" height="168.80829" rx="8"></rect>
+                <rect id="Rectangle-56" fill-opacity="0.700832201" fill="#FFFFFF" sketch:type="MSShapeGroup" x="166.516129" y="2.8134715" width="1.87096774" height="156.61658" rx="8"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

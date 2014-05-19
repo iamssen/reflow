@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="219px" height="219px" viewBox="0 0 219 219" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>service.mono</title>
+    <description>Created with Sketch.</description>
+    <defs></defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="service.mono" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)" stroke="#8D8D8D" fill="#FFFFFF">
+            <path d="M108.5,217 C168.422895,217 217,168.422895 217,108.5 C217,48.5771046 168.422895,0 108.5,0 C48.5771046,0 0,48.5771046 0,108.5 C0,168.422895 48.5771046,217 108.5,217 Z" id="Oval-11" sketch:type="MSShapeGroup"></path>
+            <path d="M53.3312102,163.825688 C33.2660369,163.825688 17,147.52721 17,127.422018 C17,108.729745 31.0601375,93.3279421 49.1615086,91.2554957 C48.8220013,89.6644535 48.6433121,88.0136864 48.6433121,86.3211009 C48.6433121,73.3500095 59.1375294,62.8348624 72.0828025,62.8348624 C77.9839278,62.8348624 83.3757216,65.0199184 87.4962847,68.6266116 C92.2075903,50.433527 108.706923,37 128.33758,37 C151.639071,37 170.528662,55.9272649 170.528662,79.2752294 C170.528662,83.8526567 169.802611,88.2601674 168.459606,92.388446 C186.743286,94.2878266 201,109.773841 201,128.59633 C201,148.701522 184.733963,165 164.66879,165 C144.603616,165 73.3963835,163.825688 53.3312102,163.825688 Z" id="Oval-30" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

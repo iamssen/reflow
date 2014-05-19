@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="226px" height="217px" viewBox="0 0 226 217" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+    <title>injector.mono</title>
+    <description>Created with Sketch.</description>
+    <defs></defs>
+    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="injector.mono" sketch:type="MSLayerGroup" transform="translate(-2.000000, -10.000000)">
+            <path d="M119.5,227 C179.422895,227 228,178.422895 228,118.5 C228,58.5771046 179.422895,10 119.5,10 C59.5771046,10 11,58.5771046 11,118.5 C11,178.422895 59.5771046,227 119.5,227 Z" id="Oval-45" stroke="#8D8D8D" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            <g id="injector" transform="translate(119.431678, 118.029259) rotate(-45.000000) translate(-119.431678, -118.029259) translate(-12.568322, 82.529259)" sketch:type="MSShapeGroup">
+                <g id="press" transform="translate(136.000000, 9.000000)">
+                    <path d="M11,38 L117,38 L117,41.5011199 C117,44.5380675 119.468615,47 122.5,47 C125.537566,47 128,44.5280073 128,41.5011199 L128,12.4988801 C128,9.46193248 125.531385,7 122.5,7 C119.462434,7 117,9.47199275 117,12.4988801 L117,16 L117,16 L11,16 L11,3.99267864 C11,1.78758312 9.20817818,0 6.99763052,0 L4.00236948,0 C1.79192185,0 0,1.79667664 0,3.99267864 L0,50.0073214 C0,52.2124169 1.79182182,54 4.00236948,54 L6.99763052,54 C9.20807815,54 11,52.2033234 11,50.0073214 L11,38 L11,38 Z" id="Rectangle-11" stroke="#8D8D8D" fill-opacity="0.6" fill="#F7F7F7"></path>
+                    <rect id="Rectangle-17" fill-opacity="0.800000012" fill="#FFFFFF" x="118" y="10" width="6" height="34" rx="6"></rect>
+                    <rect id="Rectangle-19" fill-opacity="0.800000012" fill="#FFFFFF" x="11" y="22" width="106" height="10"></rect>
+                    <rect id="Rectangle-18" fill-opacity="0.800000012" fill="#F7F7F7" x="1" y="2" width="7" height="50" rx="4"></rect>
+                </g>
+                <g id="body" transform="translate(58.000000, 0.000000)">
+                    <path d="M5,46.9999995 L5,47.0081365 C5,56.3924836 12.6175356,64 21.9976759,64 L154,64 L154,8 L21.9976759,8 C12.6101187,8 5,15.6106894 5,24.9918635 L5,25.0000004 C4.99944488,25.0000001 4.99888972,25 4.99833453,25 L3.00166547,25 C1.34389141,25 -4.26325641e-14,26.3430813 -4.26325641e-14,28.0013869 L-4.26325641e-14,43.9986131 C-4.26325641e-14,45.6562333 1.33902013,47 3.00166547,47 L4.99833453,47 C4.99888972,47 4.99944488,46.9999998 5,46.9999995 L5,46.9999995 Z" id="Rectangle-20" stroke="#8D8D8D" fill-opacity="0.6" fill="#F7F7F7"></path>
+                    <rect id="Rectangle-10" stroke="#8D8D8D" fill-opacity="0.6" fill="#F7F7F7" x="153" y="-8.52651283e-14" width="13" height="71" rx="6"></rect>
+                    <rect id="Rectangle-16" fill-opacity="0.8" fill="#FFFFFF" x="155" y="3" width="7" height="65" rx="6"></rect>
+                </g>
+                <g id="medicine" transform="translate(65.000000, 11.000000)">
+                    <path d="M62.0016756,50 L14.1279384,50 C6.3314582,50 0,43.2075746 0,34.8286933 L0,15.1713067 C0,6.79525835 6.32529348,0 14.1279384,0 L62.0016756,0 L67.9966488,0 C69.6576211,0 71,1.34159326 71,2.99653242 L71,47.0034676 C71,48.6626208 69.6553538,50 67.9966488,50 L62.0016756,50 L62.0016756,50 Z" id="Rectangle-22" fill-opacity="0.1424649" fill="#000000"></path>
+                    <circle id="Oval-3" fill-opacity="0.363224638" fill="#FFFFFF" cx="37" cy="11" r="7"></circle>
+                    <circle id="Oval-4" fill-opacity="0.363224638" fill="#FFFFFF" cx="13" cy="33" r="7"></circle>
+                    <path d="M57,26 C60.3137085,26 63,23.3137085 63,20 C63,16.6862915 60.3137085,14 57,14 C53.6862915,14 51,16.6862915 51,20 C51,23.3137085 53.6862915,26 57,26 Z" id="Oval-5" fill-opacity="0.363224638" fill="#FFFFFF"></path>
+                    <path d="M63.5,40 C65.9852814,40 68,37.9852814 68,35.5 C68,33.0147186 65.9852814,31 63.5,31 C61.0147186,31 59,33.0147186 59,35.5 C59,37.9852814 61.0147186,40 63.5,40 Z" id="Oval-7" fill-opacity="0.363224638" fill="#FFFFFF"></path>
+                    <path d="M18,21 C20.7614237,21 23,18.7614237 23,16 C23,13.2385763 20.7614237,11 18,11 C15.2385763,11 13,13.2385763 13,16 C13,18.7614237 15.2385763,21 18,21 Z" id="Oval-8" fill-opacity="0.363224638" fill="#FFFFFF"></path>
+                    <circle id="Oval-6" fill-opacity="0.363224638" fill="#FFFFFF" cx="39.5" cy="38.5" r="7.5"></circle>
+                </g>
+                <g id="division" transform="translate(76.000000, 43.000000)" fill="#474747" fill-opacity="0.515936368">
+                    <rect id="Rectangle-23" x="0" y="0" width="2" height="19"></rect>
+                    <rect id="Rectangle-24" x="12" y="5.68434189e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-26" x="24" y="5.68434189e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-25" x="36" y="0" width="2" height="19"></rect>
+                    <rect id="Rectangle-30" x="48" y="-2.84217094e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-29" x="60" y="5.68434189e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-28" x="72" y="-2.84217094e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-27" x="84" y="-2.84217094e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-32" x="96" y="5.68434189e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-31" x="108" y="-2.84217094e-14" width="2" height="19"></rect>
+                    <rect id="Rectangle-33" x="120" y="-2.84217094e-14" width="2" height="19"></rect>
+                </g>
+                <path d="M64.030732,24 C64.5468471,15.6279498 71.4991598,9 79.9976759,9 L212,9 L211,8 L211,20 L74.0085983,20 C71.0431415,20 68.4541332,21.6069923 67.069804,24 L67.069804,24 L64.030732,24 Z M211,58 L211,64 L212,63 L79.9976759,63 C72.5455037,63 66.278003,57.8990142 64.5029493,51 L66.0619827,51 C66.5544229,54.946367 69.9211825,58 74.0085983,58 L211,58 Z" id="Path" fill-opacity="0.356261322" fill="#FFFFFF"></path>
+                <rect id="light" fill-opacity="0.800000012" fill="#FFFFFF" x="59" y="27" width="3" height="18" rx="3"></rect>
+                <rect id="needle-head" stroke="#979797" fill-opacity="0.6" fill="#FFFFFF" x="51.7071068" y="31.2071068" width="7" height="10"></rect>
+                <path d="M2.57829124,37.7071068 L51.7071068,37.7071068 L51.7071068,34.7071068 L-0.292893219,34.7071068 L2.57829124,37.7071068 L2.57829124,37.7071068 Z" id="needle" fill="#8D8D8D"></path>
+            </g>
+            <path d="M13.6122707,211.067762 C13.6122707,211.067762 20.5324768,194.790925 20.5324768,191.00709 C20.5324768,187.223254 17.434195,184.155849 13.6122707,184.155849 C9.79034633,184.155849 6.69206449,187.223254 6.69206449,191.00709 C6.69206449,194.790925 13.6122707,211.067762 13.6122707,211.067762 Z" id="Oval-15" stroke="#8D8D8D" sketch:type="MSShapeGroup" transform="translate(13.612271, 197.611805) rotate(-36.000000) translate(-13.612271, -197.611805) "></path>
+            <path d="M27.0862848,207.999253 C27.0862848,207.999253 31.5520844,197.495363 31.5520844,195.053549 C31.5520844,192.611736 29.5526778,190.632255 27.0862848,190.632255 C24.6198917,190.632255 22.6204851,192.611736 22.6204851,195.053549 C22.6204851,197.495363 27.0862848,207.999253 27.0862848,207.999253 Z" id="Oval-16" stroke="#8D8D8D" sketch:type="MSShapeGroup" transform="translate(27.086285, 199.315754) rotate(-347.000000) translate(-27.086285, -199.315754) "></path>
+        </g>
+    </g>
+</svg>

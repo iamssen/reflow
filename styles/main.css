@@ -1,0 +1,25 @@
+/** markdown */
+#contents img {
+	max-width: 100%;
+}
+
+#contents h1, #contents h2 {
+	margin-top: 35px;
+	margin-bottom: 20px;
+}
+
+#contents pre {
+	overflow: auto;
+	word-wrap: normal;
+	white-space: pre;
+}
+
+#contents pre code {
+	overflow-wrap: normal;
+	white-space: pre;
+}
+
+#contens table th {
+	word-break: keep-all;
+	white-space: nowrap;
+}
