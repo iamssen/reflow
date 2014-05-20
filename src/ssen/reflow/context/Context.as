@@ -4,6 +4,7 @@ import flash.display.Stage;
 import flash.events.Event;
 
 import mx.core.IMXMLObject;
+import mx.core.IVisualElementContainer;
 import mx.managers.SystemManager;
 
 import ssen.reflow.IBackgroundProcessMap;
@@ -151,6 +152,9 @@ public class Context implements IMXMLObject {
 		// 10. map dependencies
 		//----------------------------------------------------------------
 		// views
+		if (contextView is IVisualElementContainer) {
+			_injector.mapValue(IVisualElementContainer, contextView);
+		}
 		_injector.mapValue(contextView["constructor"], contextView);
 		_injector.mapValue(Stage, stage);
 
