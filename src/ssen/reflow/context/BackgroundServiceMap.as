@@ -2,15 +2,15 @@ package ssen.reflow.context {
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
-import ssen.reflow.IBackgroundProcess;
-import ssen.reflow.IBackgroundProcessMap;
+import ssen.reflow.IBackgroundService;
+import ssen.reflow.IBackgroundServiceMap;
 import ssen.reflow.reflow_internal;
 import ssen.reflow.di.Injector;
 
 use namespace reflow_internal;
 
 /** @private implements class */
-internal class BackgroundProcessMap implements IBackgroundProcessMap {
+internal class BackgroundServiceMap implements IBackgroundServiceMap {
 	//==========================================================================================
 	// properties
 	//==========================================================================================
@@ -22,14 +22,14 @@ internal class BackgroundProcessMap implements IBackgroundProcessMap {
 	//----------------------------------------------------------------
 	// variables
 	//----------------------------------------------------------------
-	// dic[backgroundProcessClass:Class]=BackgroundProcessInfo
-	private var backgroundProcessInfos:Dictionary;
+	// dic[backgroundServiceClass:Class]=BackgroundServiceInfo
+	private var backgroundServiceInfos:Dictionary;
 
 	//==========================================================================================
 	// constructor
 	//==========================================================================================
-	public function BackgroundProcessMap() {
-		backgroundProcessInfos=new Dictionary;
+	public function BackgroundServiceMap() {
+		backgroundServiceInfos=new Dictionary;
 	}
 
 	//==========================================================================================
@@ -41,13 +41,18 @@ internal class BackgroundProcessMap implements IBackgroundProcessMap {
 
 	public function start():void {
 		var type:Class;
-		var instance:IBackgroundProcess;
+		var useType:Class;
+		var instance:IBackgroundService;
 		var injector:Injector=context._injector;
 
-		for each (var info:BackgroundProcessInfo in backgroundProcessInfos) {
+		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
 			type=info.type;
-			instance=new type();
+			useType=info.type;
+
+			instance=new useType();
+			
 			injector.injectInto(instance);
+			injector.mapValue(type, instance);
 
 			info.instance=instance;
 			info.instance.start();
@@ -55,8 +60,12 @@ internal class BackgroundProcessMap implements IBackgroundProcessMap {
 	}
 
 	public function stop():void {
-		for each (var info:BackgroundProcessInfo in backgroundProcessInfos) {
+		var injector:Injector=context._injector;
+		
+		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
 			if (info.instance) {
+				injector.unmap(info.type);
+				
 				info.instance.stop();
 				info.instance=null;
 			}
@@ -65,27 +74,29 @@ internal class BackgroundProcessMap implements IBackgroundProcessMap {
 
 	public function dispose():void {
 		context=null;
-		backgroundProcessInfos=null;
+		backgroundServiceInfos=null;
 	}
 
 	//==========================================================================================
 	// implements IBackgroundProcessMap
 	//==========================================================================================
-	public function map(Type:Class):void {
-		if (backgroundProcessInfos[Type] !== undefined) {
+	public function map(Type:Class, UseType:Class=null):void {
+		if (backgroundServiceInfos[Type] !== undefined) {
 			throw new Error(getQualifiedClassName(Type) + " is mapped!!!");
 		}
 
-		var info:BackgroundProcessInfo=new BackgroundProcessInfo;
+		var info:BackgroundServiceInfo=new BackgroundServiceInfo;
 		info.type=Type;
+		info.useType=(UseType) ? UseType : Type;
 
-		backgroundProcessInfos[Type]=info;
+		backgroundServiceInfos[Type]=info;
 	}
 }
 }
-import ssen.reflow.IBackgroundProcess;
+import ssen.reflow.IBackgroundService;
 
-class BackgroundProcessInfo {
+class BackgroundServiceInfo {
 	public var type:Class;
-	public var instance:IBackgroundProcess;
+	public var useType:Class;
+	public var instance:IBackgroundService;
 }
