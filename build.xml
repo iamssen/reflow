@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="Reflow Build" basedir=".">
 	<property name="FLEX_HOME" value="${user.home}/Settings/flex-sdks/4.11.0" />
-	<property name="OUTPUT" value="pages" />
+	<property name="OUTPUT" value="../reflow.gh-pages/asdoc" />
 	<property name="SOURCE" value="src" />
 	<property name="LIBRARY" value="libs" />
 	<property name="EXAMPLES" value="examples" />

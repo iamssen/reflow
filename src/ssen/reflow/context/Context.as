@@ -4,9 +4,10 @@ import flash.display.Stage;
 import flash.events.Event;
 
 import mx.core.IMXMLObject;
+import mx.core.IVisualElementContainer;
 import mx.managers.SystemManager;
 
-import ssen.reflow.IBackgroundProcessMap;
+import ssen.reflow.IBackgroundServiceMap;
 import ssen.reflow.ICommandMap;
 import ssen.reflow.IEventBus;
 import ssen.reflow.IInjector;
@@ -56,7 +57,7 @@ public class Context implements IMXMLObject {
 	reflow_internal var _injector:Injector;
 
 	/** @private */
-	reflow_internal var _backgroundProcessMap:BackgroundProcessMap;
+	reflow_internal var _backgroundServiceMap:BackgroundServiceMap;
 
 	private var _viewWatcher:ViewWatcher;
 
@@ -79,8 +80,8 @@ public class Context implements IMXMLObject {
 		return _injector;
 	}
 
-	protected function get backgroundProcessMap():IBackgroundProcessMap {
-		return _backgroundProcessMap;
+	protected function get backgroundServiceMap():IBackgroundServiceMap {
+		return _backgroundServiceMap;
 	}
 
 	//==========================================================================================
@@ -138,19 +139,22 @@ public class Context implements IMXMLObject {
 		_commandMap=new CommandMap;
 		_viewMap=new ViewMap;
 		_viewWatcher=new ViewWatcher;
-		_backgroundProcessMap=new BackgroundProcessMap;
+		_backgroundServiceMap=new BackgroundServiceMap;
 
 		// set dependent to instances
 		_eventBus.setContext(this);
 		_commandMap.setContext(this);
 		_viewMap.setContext(this);
 		_viewWatcher.setContext(this);
-		_backgroundProcessMap.setContext(this);
+		_backgroundServiceMap.setContext(this);
 
 		//----------------------------------------------------------------
 		// 10. map dependencies
 		//----------------------------------------------------------------
 		// views
+		if (contextView is IVisualElementContainer) {
+			_injector.mapValue(IVisualElementContainer, contextView);
+		}
 		_injector.mapValue(contextView["constructor"], contextView);
 		_injector.mapValue(Stage, stage);
 
@@ -158,7 +162,7 @@ public class Context implements IMXMLObject {
 		_injector.mapValue(ICommandMap, _commandMap);
 		_injector.mapValue(IViewMap, _viewMap);
 		_injector.mapValue(IInjector, _injector);
-		_injector.mapValue(IBackgroundProcessMap, _backgroundProcessMap);
+		_injector.mapValue(IBackgroundServiceMap, _backgroundServiceMap);
 
 		mapDependency();
 
@@ -167,7 +171,7 @@ public class Context implements IMXMLObject {
 		//----------------------------------------------------------------
 		_eventBus.start();
 		_viewWatcher.start();
-		_backgroundProcessMap.start();
+		_backgroundServiceMap.start();
 
 		contextView.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
@@ -196,7 +200,7 @@ public class Context implements IMXMLObject {
 		//----------------------------------------------------------------
 		_eventBus.stop();
 		_viewWatcher.stop();
-		_backgroundProcessMap.stop();
+		_backgroundServiceMap.stop();
 
 		//----------------------------------------------------------------
 		// 95. remove all instances
@@ -205,13 +209,13 @@ public class Context implements IMXMLObject {
 		_commandMap.dispose();
 		_viewMap.dispose();
 		_viewWatcher.dispose();
-		_backgroundProcessMap.dispose();
+		_backgroundServiceMap.dispose();
 
 		_eventBus=null;
 		_commandMap=null;
 		_viewMap=null;
 		_viewWatcher=null;
-		_backgroundProcessMap=null;
+		_backgroundServiceMap=null;
 
 		ContextMap.getInstance().deregister(this);
 	}

@@ -5,7 +5,7 @@ package ssen.reflow {
  *
  * @see IBackgroundProcessMap#map()
  */
-public interface IBackgroundProcess {
+public interface IBackgroundService {
 	/** [Hook] <code>BackgroundProcess</code> 시작 할 때 */
 	function start():void;
 

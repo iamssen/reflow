@@ -5,7 +5,7 @@ package ssen.reflow {
  *
  * @see ssen.reflow.context.Context#mapDependency()
  */
-public interface IBackgroundProcessMap {
-	function map(Type:Class):void;
+public interface IBackgroundServiceMap {
+	function map(Type:Class, UseType:Class=null):void;
 }
 }
