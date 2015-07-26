@@ -1,15 +1,16 @@
 package ssen.reflow {
 
 /**
- * [구현 필요] <code>BackgroundProcess</code>를 작성할 때 필수 구현.
+ * [IMPLEMENT] Interface of <code>BackgroundService</code>
  *
- * @see IBackgroundProcessMap#map()
+ * @see https://quip.com/8xkhAwa1FUg6 How to make a Background Service
+ * @see IBackgroundServiceMap#map()
  */
 public interface IBackgroundService {
-	/** [Hook] <code>BackgroundProcess</code> 시작 할 때 */
+	/** [Hook] Execute when the <code>BackgroundService</code> start */
 	function start():void;
 
-	/** [Hook] <code>BackgroundProcess</code> 종료 할 때 */
+	/** [Hook] Execute when the <code>BackgroundService</code> stop */
 	function stop():void;
 }
 }

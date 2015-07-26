@@ -12,11 +12,8 @@ public interface ICommandChain {
 	/** <code>Command</code>를 실행시킨 Event */
 	function get event():Event;
 
-	/** 현재 <code>Command</code>의 실행 번호(순서) */
-	function get current():int;
-
-	/** 전체 <code>Command</code>의 총 갯수 */
-	function get numCommands():int;
+	/** 현재 진행 상태 */
+	function get progress():Number;
 
 	/** <code>Command</code>들이 연속 실행되는 과정에서 공유할 수 있는 임시 데이터 공간 */
 	function get sharedData():Object;
@@ -25,6 +22,6 @@ public interface ICommandChain {
 	function next():void;
 
 	/** <code>CommandChain</code>을 종료. (현재 및 남아있는 모든 <code>Command</code>를 종료) */
-	function exit():void;
+	function stop():void;
 }
 }

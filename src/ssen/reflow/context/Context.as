@@ -87,7 +87,7 @@ public class Context implements IMXMLObject {
 	//==========================================================================================
 	// abstract functions
 	//==========================================================================================
-	/** [Hook] 이 함수 내에서 여러 의존성을 선언 */
+	/** [Hook] you can do map dependency (dependency injection mapping, view mapping, command mapping...) */
 	protected function mapDependency():void {
 	}
 
@@ -157,6 +157,7 @@ public class Context implements IMXMLObject {
 		}
 		_injector.mapValue(contextView["constructor"], contextView);
 		_injector.mapValue(Stage, stage);
+		_injector.mapValue(Context, this);
 
 		_injector.mapValue(IEventBus, _eventBus);
 		_injector.mapValue(ICommandMap, _commandMap);

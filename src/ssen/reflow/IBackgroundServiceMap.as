@@ -1,11 +1,12 @@
 package ssen.reflow {
 
 /**
- * [구현 불필요] <code>Context.backgroundProcessMap</code>의 <code>Interface</code>.
+ * [DO NOT IMPLEMENT] Interface of <code>Context.backgroundProcessMap</code>.
  *
  * @see ssen.reflow.context.Context#mapDependency()
+ * @see ssen.reflow.context.Context#backgroundServiceMap
  */
 public interface IBackgroundServiceMap {
-	function map(Type:Class, UseType:Class=null):void;
+	function map(RequestType:Class, ResponseType:Class = null):void;
 }
 }

@@ -4,8 +4,8 @@ import flash.utils.getQualifiedClassName;
 
 import ssen.reflow.IBackgroundService;
 import ssen.reflow.IBackgroundServiceMap;
-import ssen.reflow.reflow_internal;
 import ssen.reflow.di.Injector;
+import ssen.reflow.reflow_internal;
 
 use namespace reflow_internal;
 
@@ -24,75 +24,86 @@ internal class BackgroundServiceMap implements IBackgroundServiceMap {
 	//----------------------------------------------------------------
 	// dic[backgroundServiceClass:Class]=BackgroundServiceInfo
 	private var backgroundServiceInfos:Dictionary;
+	private var started:Boolean;
 
 	//==========================================================================================
 	// constructor
 	//==========================================================================================
 	public function BackgroundServiceMap() {
-		backgroundServiceInfos=new Dictionary;
+		backgroundServiceInfos = new Dictionary;
 	}
 
 	//==========================================================================================
 	// life cycle on context
 	//==========================================================================================
 	public function setContext(hostContext:Context):void {
-		context=hostContext;
+		context = hostContext;
 	}
 
 	public function start():void {
 		var type:Class;
 		var useType:Class;
 		var instance:IBackgroundService;
-		var injector:Injector=context._injector;
+		var injector:Injector = context._injector;
 
 		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
-			type=info.type;
-			useType=info.type;
+			type = info.type;
+			useType = info.type;
 
-			instance=new useType();
+			instance = new useType();
 			
 			injector.injectInto(instance);
 			injector.mapValue(type, instance);
 
-			info.instance=instance;
+			info.instance = instance;
 			info.instance.start();
 		}
+
+		started = true;
 	}
 
 	public function stop():void {
-		var injector:Injector=context._injector;
+		var injector:Injector = context._injector;
 		
 		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
 			if (info.instance) {
 				injector.unmap(info.type);
 				
 				info.instance.stop();
-				info.instance=null;
+				info.instance = null;
 			}
 		}
+
+		started = false;
 	}
 
 	public function dispose():void {
-		context=null;
-		backgroundServiceInfos=null;
+		if (started) stop();
+		context = null;
+		backgroundServiceInfos = null;
 	}
 
 	//==========================================================================================
 	// implements IBackgroundProcessMap
 	//==========================================================================================
-	public function map(Type:Class, UseType:Class=null):void {
-		if (backgroundServiceInfos[Type] !== undefined) {
-			throw new Error(getQualifiedClassName(Type) + " is mapped!!!");
+	public function map(Type:Class, UseType:Class = null):void {
+		if (started) {
+			throw new Error("background service mapping can't after context started.")
 		}
 
-		var info:BackgroundServiceInfo=new BackgroundServiceInfo;
-		info.type=Type;
-		info.useType=(UseType) ? UseType : Type;
+		if (backgroundServiceInfos[Type] !== undefined) {
+			throw new Error(getQualifiedClassName(Type) + " is exists on background service map.");
+		}
 
-		backgroundServiceInfos[Type]=info;
+		var info:BackgroundServiceInfo = new BackgroundServiceInfo;
+		info.type = Type;
+		info.useType = (UseType) ? UseType : Type;
+
+		backgroundServiceInfos[Type] = info;
 	}
 }
 }
+
 import ssen.reflow.IBackgroundService;
 
 class BackgroundServiceInfo {
