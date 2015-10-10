@@ -36,7 +36,7 @@ public interface IEventBus {
 	 *
 	 * @see DispatchTo
 	 */
-	function dispatchEvent(event:Event, to:String="current", penetrate:Boolean=false):void;
+	function dispatchEvent(event:Event):void;
 
 	//----------------------------------------------------------------
 	// tree
