@@ -11,52 +11,42 @@ use namespace reflow_internal;
 
 /** @private implements class */
 internal class ViewMap implements IViewMap {
-	//==========================================================================================
-	// properties
-	//==========================================================================================
-	//----------------------------------------------------------------
-	// dependent
-	//----------------------------------------------------------------
-	private var context:Context;
-
-	//----------------------------------------------------------------
-	// variables
-	//----------------------------------------------------------------
-	// map[ViewClass:Class]=ViewInfo
-	private var viewInfors:Dictionary;
+	private var hostContext:Context;
+	private var viewInfors:Dictionary; // map[ViewClass:Class]=ViewInfo
 
 	//==========================================================================================
-	// life cycle on context
+	// func
 	//==========================================================================================
-	public function setContext(hostContext:Context):void {
-		context=hostContext;
-		viewInfors=new Dictionary;
+	//----------------------------------------------------------------
+	// context life cycle
+	//----------------------------------------------------------------
+	public function setContext(context:Context):void {
+		hostContext = context;
+		viewInfors = new Dictionary;
 	}
 
 	public function dispose():void {
-		context=null;
-		viewInfors=null;
+		hostContext = null;
+		viewInfors = null;
 	}
 
-	//==========================================================================================
+	//----------------------------------------------------------------
 	// implements IViewMap
-	//==========================================================================================
-	public function map(viewClass:Class, mediatorClass:Class=null, global:Boolean=false):void {
-		if (viewInfors[viewClass] !== undefined) {
-			throw new Error(getQualifiedClassName(viewClass) + " is mapped!!!");
-		}
+	//----------------------------------------------------------------
+	public function map(ViewType:Class, MediatorType:Class = null, global:Boolean = false):void {
+		if (viewInfors[ViewType] !== undefined) throw new Error(getQualifiedClassName(ViewType) + " is mapped!!!");
 
-		var info:ViewInfo=new ViewInfo;
-		info.type=viewClass;
-		info.mediatorType=mediatorClass;
-		info.global=global;
+		var info:ViewInfo = new ViewInfo;
+		info.type = ViewType;
+		info.mediatorType = MediatorType;
+		info.global = global;
 
-		viewInfors[viewClass]=info;
+		viewInfors[ViewType] = info;
 	}
 
-	public function unmap(viewClass:Class):void {
-		if (viewInfors[viewClass] !== undefined) {
-			delete viewInfors[viewClass];
+	public function unmap(ViewType:Class):void {
+		if (viewInfors[ViewType] !== undefined) {
+			delete viewInfors[ViewType];
 		}
 	}
 
@@ -68,27 +58,27 @@ internal class ViewMap implements IViewMap {
 		return viewInfors[view["constructor"]] !== undefined;
 	}
 
-	//==========================================================================================
-	// local api
-	//==========================================================================================
+	//----------------------------------------------------------------
+	// internal
+	//----------------------------------------------------------------
 	public function injectInto(view:Object):void {
 		if (view is DisplayObject) {
 			if (viewInfors[view["constructor"]] === undefined) {
 				throw new Error(getQualifiedClassName(view) + " isn't View");
 			} else {
-				var viewInfo:ViewInfo=viewInfors[view["constructor"]];
+				var viewInfo:ViewInfo = viewInfors[view["constructor"]];
 
 				if (viewInfo.mediatorType) {
-					var mediator:IMediator=new viewInfo.mediatorType;
-					var mediatorController:MediatorController=new MediatorController;
+					var mediator:IMediator = new viewInfo.mediatorType;
+					var mediatorController:MediatorController = new MediatorController;
 
-					context._injector.injectInto(mediator);
+					hostContext._injector.injectInto(mediator);
 
-					mediatorController.view=view as DisplayObject;
-					mediatorController.mediator=mediator;
+					mediatorController.view = view as DisplayObject;
+					mediatorController.mediator = mediator;
 					mediatorController.start();
 				} else {
-					context._injector.injectInto(view);
+					hostContext._injector.injectInto(view);
 				}
 			}
 		} else {
@@ -97,11 +87,12 @@ internal class ViewMap implements IViewMap {
 	}
 
 	public function isGlobal(view:*):Boolean {
-		var info:ViewInfo=(view is Class) ? viewInfors[view] : viewInfors[view["constructor"]];
+		var info:ViewInfo = (view is Class) ? viewInfors[view] : viewInfors[view["constructor"]];
 		return info.global;
 	}
 }
 }
+
 import flash.display.DisplayObject;
 import flash.events.Event;
 
@@ -141,7 +132,7 @@ class MediatorController {
 
 		mediator.shutdown();
 
-		mediator=null;
-		view=null;
+		mediator = null;
+		view = null;
 	}
 }

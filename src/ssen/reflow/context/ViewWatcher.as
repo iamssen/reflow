@@ -9,26 +9,20 @@ use namespace reflow_internal;
 
 /** @private implements class */
 internal class ViewWatcher {
-	//==========================================================================================
-	// properties
-	//==========================================================================================
-	//----------------------------------------------------------------
-	// dependent
-	//----------------------------------------------------------------
 	private var context:Context;
 	private var contextView:DisplayObjectContainer;
 
-	//----------------------------------------------------------------
-	// flags
-	//----------------------------------------------------------------
 	private var started:Boolean;
 
 	//==========================================================================================
-	// life cycle on context
+	// func
 	//==========================================================================================
+	//----------------------------------------------------------------
+	// context life cycle
+	//----------------------------------------------------------------
 	public function setContext(hostContext:Context):void {
-		context=hostContext;
-		contextView=hostContext.contextView as DisplayObjectContainer;
+		context = hostContext;
+		contextView = hostContext.contextView as DisplayObjectContainer;
 	}
 
 	public function start():void {
@@ -39,7 +33,7 @@ internal class ViewWatcher {
 		contextView.addEventListener(Event.ADDED, added, true);
 		context.stage.addEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
 
-		started=true;
+		started = true;
 	}
 
 	public function stop():void {
@@ -50,19 +44,19 @@ internal class ViewWatcher {
 		contextView.removeEventListener(Event.ADDED, added, true);
 		context.stage.removeEventListener(Event.ADDED_TO_STAGE, addedOnGlobal, true);
 
-		started=false;
+		started = false;
 	}
 
 	public function dispose():void {
-		context=null;
-		contextView=null;
+		context = null;
+		contextView = null;
 	}
 
-	//==========================================================================================
+	//----------------------------------------------------------------
 	// event handlers
-	//==========================================================================================
+	//----------------------------------------------------------------
 	private function addedOnGlobal(event:Event):void {
-		var view:DisplayObject=event.target as DisplayObject;
+		var view:DisplayObject = event.target as DisplayObject;
 
 		if (context._viewMap.has(view) && context._viewMap.isGlobal(view)) {
 			context._viewMap.injectInto(view);
@@ -70,7 +64,7 @@ internal class ViewWatcher {
 	}
 
 	private function added(event:Event):void {
-		var view:DisplayObject=event.target as DisplayObject;
+		var view:DisplayObject = event.target as DisplayObject;
 
 		if (context._viewMap.has(view) && !context._viewMap.isGlobal(view)) {
 			//			if (isContextChild(view)) {

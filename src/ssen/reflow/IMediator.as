@@ -2,22 +2,17 @@ package ssen.reflow {
 import flash.display.DisplayObject;
 
 /**
- * [구현 필요] <code>Mediator</code>를 작성할 때 필수 구현.
- *
+ * [IMPLEMENT]
  * @see IViewMap#mapView()
  */
 public interface IMediator {
-	/**
-	 * [Hook] <code>Mediator</code> 작동에 필요한 <code>View</code>를 보내줌
-	 *
-	 * @param value View
-	 */
+	/** [Hook] */
 	function setView(value:DisplayObject):void;
 
-	/** [Hook] <code>View</code>가 실행 될 때 */
+	/** [Hook] */
 	function startup():void;
 
-	/** [Hook] <code>View</code>가 종료 될 때  */
+	/** [Hook] */
 	function shutdown():void;
 }
 }
