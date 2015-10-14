@@ -5,25 +5,33 @@ import flash.events.Event;
 
 import mx.core.IMXMLObject;
 import mx.core.IVisualElementContainer;
-import mx.managers.SystemManager;
+import mx.managers.ISystemManager;
 
 import ssen.reflow.IBackgroundServiceMap;
 import ssen.reflow.ICommandMap;
 import ssen.reflow.IEventBus;
+import ssen.reflow.IEventDistributor;
 import ssen.reflow.IInjector;
 import ssen.reflow.IViewMap;
-import ssen.reflow.reflow_internal;
 import ssen.reflow.di.Injector;
+import ssen.reflow.reflow_internal;
 
 use namespace reflow_internal;
 
 /**
  * MVC Module Context
+ *
+ * @default("tag")
  */
 public class Context implements IMXMLObject {
 	//==========================================================================================
 	// properties
 	//==========================================================================================
+	//----------------------------------------------------------------
+	// context tag for search
+	//----------------------------------------------------------------
+	public var tag:Object;
+
 	//----------------------------------------------------------------
 	// state flags
 	//----------------------------------------------------------------
@@ -59,35 +67,42 @@ public class Context implements IMXMLObject {
 	/** @private */
 	reflow_internal var _backgroundServiceMap:BackgroundServiceMap;
 
+	/** @private */
+	reflow_internal var _eventDistributor:EventDistributor;
+
 	private var _viewWatcher:ViewWatcher;
 
 	//==========================================================================================
 	// getters
 	//==========================================================================================
-	protected function get eventBus():IEventBus {
+	final protected function get eventBus():IEventBus {
 		return _eventBus;
 	}
 
-	protected function get commandMap():ICommandMap {
+	final protected function get commandMap():ICommandMap {
 		return _commandMap;
 	}
 
-	protected function get viewMap():IViewMap {
+	final protected function get viewMap():IViewMap {
 		return _viewMap;
 	}
 
-	protected function get injector():IInjector {
+	final protected function get injector():IInjector {
 		return _injector;
 	}
 
-	protected function get backgroundServiceMap():IBackgroundServiceMap {
+	final protected function get backgroundServiceMap():IBackgroundServiceMap {
 		return _backgroundServiceMap;
+	}
+
+	final protected function get eventDistributor():IEventDistributor {
+		return _eventDistributor;
 	}
 
 	//==========================================================================================
 	// abstract functions
 	//==========================================================================================
-	/** [Hook] 이 함수 내에서 여러 의존성을 선언 */
+	/** [Hook] you can do map dependency (dependency injection mapping, view mapping, command mapping...) */
 	protected function mapDependency():void {
 	}
 
@@ -109,11 +124,11 @@ public class Context implements IMXMLObject {
 	}
 
 	//==========================================================================================
-	// context life cycle
+	// func
 	//==========================================================================================
 	/** @private IMXMLObject initialized */
-	public function initialized(document:Object, id:String):void {
-		contextView=document as DisplayObject;
+	final public function initialized(document:Object, id:String):void {
+		contextView = document as DisplayObject;
 		contextView.addEventListener(Event.ADDED, onAdded);
 	}
 
@@ -131,15 +146,17 @@ public class Context implements IMXMLObject {
 		//----------------------------------------------------------------
 		// 05. create instances
 		//----------------------------------------------------------------
-		var parentContext:Context=ContextMap.getInstance().getParentContext(this);
-		var hasParent:Boolean=parentContext !== null;
+		var parentContext:Context = ContextMap.getInstance().getParentContext(this);
+		var hasParent:Boolean = parentContext !== null;
 
-		_eventBus=hasParent ? parentContext._eventBus.createChildEventBus() as EventBus : new EventBus;
-		_injector=hasParent ? parentContext._injector.createChildInjector() as Injector : new Injector;
-		_commandMap=new CommandMap;
-		_viewMap=new ViewMap;
-		_viewWatcher=new ViewWatcher;
-		_backgroundServiceMap=new BackgroundServiceMap;
+		//		_eventBus = hasParent ? parentContext._eventBus.createChildEventBus() as EventBus : new EventBus;
+		_injector = hasParent ? parentContext._injector.createChildInjector() as Injector : new Injector;
+		_eventBus = new EventBus;
+		_commandMap = new CommandMap;
+		_viewMap = new ViewMap;
+		_viewWatcher = new ViewWatcher;
+		_backgroundServiceMap = new BackgroundServiceMap;
+		_eventDistributor = new EventDistributor;
 
 		// set dependent to instances
 		_eventBus.setContext(this);
@@ -147,31 +164,33 @@ public class Context implements IMXMLObject {
 		_viewMap.setContext(this);
 		_viewWatcher.setContext(this);
 		_backgroundServiceMap.setContext(this);
+		_eventDistributor.setContext(this);
 
 		//----------------------------------------------------------------
 		// 10. map dependencies
 		//----------------------------------------------------------------
 		// views
-		if (contextView is IVisualElementContainer) {
-			_injector.mapValue(IVisualElementContainer, contextView);
-		}
+		if (contextView is IVisualElementContainer) _injector.mapValue(IVisualElementContainer, contextView);
 		_injector.mapValue(contextView["constructor"], contextView);
 		_injector.mapValue(Stage, stage);
+		_injector.mapValue(Context, this);
 
 		_injector.mapValue(IEventBus, _eventBus);
 		_injector.mapValue(ICommandMap, _commandMap);
 		_injector.mapValue(IViewMap, _viewMap);
 		_injector.mapValue(IInjector, _injector);
 		_injector.mapValue(IBackgroundServiceMap, _backgroundServiceMap);
+		_injector.mapValue(IEventDistributor, _eventDistributor);
 
 		mapDependency();
 
 		//----------------------------------------------------------------
 		// 20. start watch
 		//----------------------------------------------------------------
-		_eventBus.start();
+		//		_eventBus.start();
 		_viewWatcher.start();
 		_backgroundServiceMap.start();
+		//		_eventDistributor.start();
 
 		contextView.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 	}
@@ -198,9 +217,10 @@ public class Context implements IMXMLObject {
 		//----------------------------------------------------------------
 		// 90. unwatch all watchable instances
 		//----------------------------------------------------------------
-		_eventBus.stop();
+		//		_eventBus.stop();
 		_viewWatcher.stop();
 		_backgroundServiceMap.stop();
+		//		_eventDistributor.stop();
 
 		//----------------------------------------------------------------
 		// 95. remove all instances
@@ -210,28 +230,26 @@ public class Context implements IMXMLObject {
 		_viewMap.dispose();
 		_viewWatcher.dispose();
 		_backgroundServiceMap.dispose();
+		_eventDistributor.dispose();
 
-		_eventBus=null;
-		_commandMap=null;
-		_viewMap=null;
-		_viewWatcher=null;
-		_backgroundServiceMap=null;
+		_eventBus = null;
+		_commandMap = null;
+		_viewMap = null;
+		_viewWatcher = null;
+		_backgroundServiceMap = null;
+		_eventDistributor = null;
 
 		ContextMap.getInstance().deregister(this);
 	}
 
-	//==========================================================================================
-	// utils
-	//==========================================================================================
 	private function saveStage():void {
 		if (!stageSaved) {
-			if (contextView["systemManager"]) {
-				var systemManager:SystemManager=contextView["systemManager"];
-				stage=systemManager.stage;
-				stageSaved=true;
-			} else if (contextView.stage) {
-				stage=contextView.stage;
-				stageSaved=true;
+			if (contextView.hasOwnProperty("systemManager") && contextView["systemManager"] is ISystemManager) {
+				stage = ISystemManager(contextView["systemManager"]).stage;
+				stageSaved = true;
+			} else if (contextView.stage is Stage) {
+				stage = contextView.stage;
+				stageSaved = true;
 			}
 		}
 	}

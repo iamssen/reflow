@@ -3,72 +3,69 @@ import flash.events.Event;
 
 import ssen.reflow.ICommand;
 import ssen.reflow.ICommandChain;
+import ssen.reflow.ICommandFlow;
 import ssen.reflow.IInjector;
 
 /** @private implements class */
 internal class CommandChain implements ICommandChain {
-	//==========================================================================================
-	// properties
-	//==========================================================================================
-	//----------------------------------------------------------------
-	// dependent
-	//----------------------------------------------------------------
 	private var _injector:IInjector;
 
-	//----------------------------------------------------------------
-	// variables
-	//----------------------------------------------------------------
-	// trigger event
 	private var _event:Event;
+	private var _commands:ICommandFlow;
+	private var _deconstructCallback:Function;
 
-	// chain step
-	private var _commandClasses:Vector.<Class>;
-	private var _current:int=-1;
-
-	// shared data in chain
 	private var _sharedData:Object;
 
-	//==========================================================================================
-	// constructor
-	//==========================================================================================
-	public function CommandChain(event:Event, injector:IInjector, commandClasses:Vector.<Class>) {
-		_event=event;
-		_injector=injector;
-		_commandClasses=commandClasses;
-	}
+	private var _currentCommand:ICommand;
 
 	//==========================================================================================
-	// implements IEventChain
+	// func
 	//==========================================================================================
+	public function CommandChain(event:Event, injector:IInjector, commands:ICommandFlow, deconstructCallback:Function) {
+		_injector = injector;
+
+		_event = event;
+		_commands = commands;
+		_deconstructCallback = deconstructCallback;
+	}
+
+	//----------------------------------------------------------------
+	// implements ICommandChain
+	//----------------------------------------------------------------
 	public function get sharedData():Object {
-		return _sharedData||={};
+		return _sharedData ||= {};
 	}
 
 	public function get event():Event {
 		return _event;
 	}
 
-	public function get current():int {
-		return _current;
-	}
-
-	public function get numCommands():int {
-		return _commandClasses.length;
-	}
-
 	public function next():void {
-		if (++_current < _commandClasses.length) {
-			var CommandClass:Class=_commandClasses[_current];
-			var command:ICommand=new CommandClass;
+		if (_commands.hasNext()) {
+			var CommandClass:Class = _commands.next();
+			var command:ICommand = new CommandClass;
 
 			_injector.injectInto(command);
+			_currentCommand = command;
 
 			command.execute(this);
+		} else {
+			deconstruct();
 		}
 	}
 
-	public function exit():void {
-		_current=_commandClasses.length;
+	public function stop():void {
+		if (_currentCommand) _currentCommand.stop();
+		deconstruct();
+	}
+
+	private function deconstruct():void {
+		_currentCommand = null;
+
+		if (_deconstructCallback !== null) {
+			_deconstructCallback(this);
+			_deconstructCallback = null;
+		}
 	}
 }
 }
