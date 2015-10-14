@@ -1,6 +1,8 @@
 package ssen.reflow {
 
-// TODO 기존 DispatchTo의 처리를 IEventDistributor로 이전
+/**
+ * [DO NOT IMPLEMENT]
+ */
 public interface IEventDistributor {
 	function map(eventType:String, dispatchTo:*):void;
 

@@ -1,10 +1,10 @@
 bin
 bin-debug
 bin-release
-docs
+
+node_modules
 
 .settings
-
 .actionScriptProperties
 .flexLibProperties
 .project

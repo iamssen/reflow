@@ -11,49 +11,42 @@ use namespace reflow_internal;
 
 /** @private implements class */
 internal class BackgroundServiceMap implements IBackgroundServiceMap {
-	//==========================================================================================
-	// properties
-	//==========================================================================================
-	//----------------------------------------------------------------
-	// dependent
-	//----------------------------------------------------------------
-	private var context:Context;
+	private var hostContext:Context;
 
-	//----------------------------------------------------------------
-	// variables
-	//----------------------------------------------------------------
-	// dic[backgroundServiceClass:Class]=BackgroundServiceInfo
-	private var backgroundServiceInfos:Dictionary;
+	private var backgroundServiceInfos:Dictionary; // [backgroundServiceClass:Class]=BackgroundServiceInfo
 	private var started:Boolean;
 
 	//==========================================================================================
-	// constructor
+	// func
 	//==========================================================================================
-	public function BackgroundServiceMap() {
+	//----------------------------------------------------------------
+	// context life cycle
+	//----------------------------------------------------------------
+	public function setContext(context:Context):void {
+		hostContext = context;
 		backgroundServiceInfos = new Dictionary;
 	}
 
-	//==========================================================================================
-	// life cycle on context
-	//==========================================================================================
-	public function setContext(hostContext:Context):void {
-		context = hostContext;
+	public function dispose():void {
+		if (started) stop();
+		hostContext = null;
+		backgroundServiceInfos = null;
 	}
 
 	public function start():void {
-		var type:Class;
-		var useType:Class;
+		var Type:Class;
+		var UseType:Class;
 		var instance:IBackgroundService;
-		var injector:Injector = context._injector;
+		var injector:Injector = hostContext._injector;
 
 		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
-			type = info.type;
-			useType = info.type;
+			Type = info.Type;
+			UseType = info.Type;
 
-			instance = new useType();
+			instance = new UseType();
 			
 			injector.injectInto(instance);
-			injector.mapValue(type, instance);
+			injector.mapValue(Type, instance);
 
 			info.instance = instance;
 			info.instance.start();
@@ -63,11 +56,11 @@ internal class BackgroundServiceMap implements IBackgroundServiceMap {
 	}
 
 	public function stop():void {
-		var injector:Injector = context._injector;
+		var injector:Injector = hostContext._injector;
 		
 		for each (var info:BackgroundServiceInfo in backgroundServiceInfos) {
 			if (info.instance) {
-				injector.unmap(info.type);
+				injector.unmap(info.Type);
 				
 				info.instance.stop();
 				info.instance = null;
@@ -77,27 +70,22 @@ internal class BackgroundServiceMap implements IBackgroundServiceMap {
 		started = false;
 	}
 
-	public function dispose():void {
-		if (started) stop();
-		context = null;
-		backgroundServiceInfos = null;
-	}
 
-	//==========================================================================================
+	//----------------------------------------------------------------
 	// implements IBackgroundProcessMap
-	//==========================================================================================
+	//----------------------------------------------------------------
 	public function map(Type:Class, UseType:Class = null):void {
 		if (started) {
-			throw new Error("background service mapping can't after context started.")
+			throw new Error(getQualifiedClassName(IBackgroundServiceMap) + ".map() can't call after Context started");
 		}
 
 		if (backgroundServiceInfos[Type] !== undefined) {
-			throw new Error(getQualifiedClassName(Type) + " is exists on background service map.");
+			throw new Error(getQualifiedClassName(Type) + " exists on " + getQualifiedClassName(IBackgroundServiceMap));
 		}
 
 		var info:BackgroundServiceInfo = new BackgroundServiceInfo;
-		info.type = Type;
-		info.useType = (UseType) ? UseType : Type;
+		info.Type = Type;
+		info.UseType = (UseType) ? UseType : Type;
 
 		backgroundServiceInfos[Type] = info;
 	}
@@ -107,7 +95,7 @@ internal class BackgroundServiceMap implements IBackgroundServiceMap {
 import ssen.reflow.IBackgroundService;
 
 class BackgroundServiceInfo {
-	public var type:Class;
-	public var useType:Class;
+	public var Type:Class;
+	public var UseType:Class;
 	public var instance:IBackgroundService;
 }

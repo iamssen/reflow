@@ -13,9 +13,9 @@ internal class EventListener implements IEventListener {
 			_collection.remove(_type, _listener);
 		}
 
-		_collection=null;
-		_listener=null;
-		_type=null;
+		_collection = null;
+		_listener = null;
+		_type = null;
 	}
 
 	public function get listener():Function {

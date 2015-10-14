@@ -1,0 +1,24 @@
+{
+  "name": "reflow",
+  "version": "2.0.0",
+  "description": "Reflow Framework Build",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamssen/reflow.git"
+  },
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iamssen/reflow/issues"
+  },
+  "homepage": "https://github.com/iamssen/reflow#readme",
+  "dependencies": {
+    "done-exec": "^0.1.0",
+    "flbuild": "^0.2.1",
+    "gulp": "^3.9.0",
+    "gulp-sequence": "^0.4.1"
+  }
+}

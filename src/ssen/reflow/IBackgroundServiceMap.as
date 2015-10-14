@@ -1,8 +1,7 @@
 package ssen.reflow {
 
 /**
- * [DO NOT IMPLEMENT] Interface of <code>Context.backgroundProcessMap</code>.
- *
+ * [DO NOT IMPLEMENT]
  * @see ssen.reflow.context.Context#mapDependency()
  * @see ssen.reflow.context.Context#backgroundServiceMap
  */
