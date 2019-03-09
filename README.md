@@ -18,3 +18,11 @@
 
 [Flex]: http://flex.apache.org/
 [Reflow Framework]: https://github.com/iamssen/reflow
+
+
+---------
+
+# Archive
+- Js로 옮겨가면서 폐기
+- DI 엔진, MVCS 구조화, Multiple hierarchy context 등 Framework의 처음부터 끝까지 전부 작성했었다
+- 작업했던 대부분의 상용 프로젝트들에서 사용했었음
